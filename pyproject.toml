@@ -9,7 +9,34 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
-    "twilio==8.5.0"
+    "twilio==8.5.0",
+    
+    # AI/ML Core
+    "openai==1.12.0",
+    "litellm==1.23.0",
+    "langchain==0.1.5",
+    "langchain-openai==0.0.5",
+    "langchain-anthropic==0.0.5",
+    
+    # Vector Store & Embeddings
+    "qdrant-client==1.7.0",
+    "sentence-transformers==2.3.1",
+    
+    # Data Analysis & ML
+    "scikit-learn==1.4.0",
+    "pandas==2.2.0",
+    "numpy==1.26.3",
+    "xgboost==2.0.3",
+    
+    # NLP
+    "transformers==4.37.2",
+    "spacy==3.7.2",
+    
+    # Time Series Forecasting
+    "prophet==1.1.5",
+    
+    # Background Tasks
+    "celery[redis]==5.3.4",
 ]
 
 [build-system]
