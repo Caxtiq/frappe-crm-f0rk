@@ -148,6 +148,12 @@ doc_events = {
 		"after_insert": ["crm.api.todo.after_insert"],
 		"on_update": ["crm.api.todo.on_update"],
 	},
+	"CRM Lead": {
+		"after_insert": ["crm.ai.hooks.on_lead_insert"],
+	},
+	"CRM Deal": {
+		"after_insert": ["crm.ai.hooks.on_deal_insert"],
+	},
 	"Comment": {
 		"on_update": ["crm.api.comment.on_update"],
 	},

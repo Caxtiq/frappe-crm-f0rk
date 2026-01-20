@@ -77,21 +77,57 @@ export const useAIStore = defineStore('ai', () => {
       throw new Error('AI is not enabled')
     }
 
+    loading.value = true
+    try {
+      const resource = createResource({
+        url: 'crm.api.ai.score_lead',
+        params: { lead_name: leadName },
+      })
+
+      const response = await resource.submit()
+      
+      // Update suggestions cache
+      const key = `CRM Lead:${leadName}`
+      if (!suggestions.value[key]) {
+        suggestions.value[key] = []
+      }
+      suggestions.value[key].unshift(response)
+
+      return response
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const getScoreBreakdown = async (leadName) => {
+    if (!isEnabled.value) {
+      throw new Error('AI is not enabled')
+    }
+
     const resource = createResource({
-      url: 'crm.api.ai.score_lead',
-      params: { lead_name: leadName },
+      url: 'frappe.client.get_value',
+      params: {
+        doctype: 'CRM Lead',
+        filters: { name: leadName },
+        fieldname: ['ai_score', 'ai_score_data', 'ai_score_updated_on'],
+      },
     })
 
     const response = await resource.submit()
     
-    // Update suggestions cache
-    const key = `CRM Lead:${leadName}`
-    if (!suggestions.value[key]) {
-      suggestions.value[key] = []
+    if (response.ai_score_data) {
+      try {
+        return {
+          score: response.ai_score,
+          updated_on: response.ai_score_updated_on,
+          ...JSON.parse(response.ai_score_data),
+        }
+      } catch (e) {
+        console.error('Failed to parse score data:', e)
+      }
     }
-    suggestions.value[key].unshift(response)
 
-    return response
+    return null
   }
 
   const analyzeDeal = async (dealName) => {
@@ -253,6 +289,7 @@ export const useAIStore = defineStore('ai', () => {
     sendMessage,
     composeEmail,
     scoreLead,
+    getScoreBreakdown,
     analyzeDeal,
     summarizeActivities,
     analyzeSentiment,
