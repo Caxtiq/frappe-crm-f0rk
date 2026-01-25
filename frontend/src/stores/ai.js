@@ -185,6 +185,25 @@ export const useAIStore = defineStore('ai', () => {
     return await resource.submit()
   }
 
+  const generateEmailReply = async (emailContent, senderName, referenceDoctype, referenceName, tone = 'professional') => {
+    if (!isEnabled.value) {
+      throw new Error('AI is not enabled')
+    }
+
+    const resource = createResource({
+      url: 'crm.api.ai.generate_email_reply',
+      params: {
+        email_content: emailContent,
+        sender_name: senderName,
+        reference_doctype: referenceDoctype,
+        reference_name: referenceName,
+        tone,
+      },
+    })
+
+    return await resource.submit()
+  }
+
   const getConversationHistory = async (referenceDoctype, referenceName, limit = 20) => {
     const resource = createResource({
       url: 'crm.api.ai.get_conversation_history',
@@ -293,6 +312,7 @@ export const useAIStore = defineStore('ai', () => {
     analyzeDeal,
     summarizeActivities,
     analyzeSentiment,
+    generateEmailReply,
     getConversationHistory,
     getSuggestions,
     acceptSuggestion,

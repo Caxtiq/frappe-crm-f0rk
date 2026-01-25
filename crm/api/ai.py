@@ -342,3 +342,60 @@ def reject_suggestion(suggestion_name: str, reason: Optional[str] = None):
 		suggestion.rejection_reason = reason
 	suggestion.save(ignore_permissions=True)
 	return {"success": True}
+
+
+@frappe.whitelist()
+def generate_email_reply(
+	email_content: str,
+	sender_name: str,
+	reference_doctype: Optional[str] = None,
+	reference_name: Optional[str] = None,
+	tone: str = "professional",
+):
+	"""
+	Generate an AI-powered email reply
+	
+	Args:
+		email_content: Content of the email to reply to
+		sender_name: Name of the person who sent the email
+		reference_doctype: Optional reference doctype for context
+		reference_name: Optional reference name for context
+		tone: Reply tone (professional, friendly, formal, etc.)
+	"""
+	ai = get_ai_service()
+	
+	if not ai.is_enabled():
+		frappe.throw(_("AI is not enabled. Please configure AI settings."))
+	
+	# Get context if available
+	context = None
+	if reference_doctype and reference_name:
+		if reference_doctype == "CRM Lead":
+			context = get_lead_context(reference_name)
+		elif reference_doctype == "CRM Deal":
+			context = get_deal_context(reference_name)
+	
+	# Build the prompt
+	context_str = f"\n\nContext: {context}" if context else ""
+	prompt = f"""Generate a {tone} email reply to the following email from {sender_name}.
+
+Email to reply to:
+{email_content}
+{context_str}
+
+Please provide:
+1. A clear and concise reply
+2. Address any questions or concerns raised
+3. Maintain a {tone} tone
+4. Include a proper greeting and sign-off
+
+Reply:"""
+	
+	# Get AI response
+	response = ai.complete(prompt, system_prompt=SYSTEM_PROMPTS["email_composer"])
+	
+	# Save as conversation
+	if reference_doctype and reference_name:
+		save_ai_conversation(reference_doctype, reference_name, prompt, response, "email_reply")
+	
+	return format_ai_response(response)
