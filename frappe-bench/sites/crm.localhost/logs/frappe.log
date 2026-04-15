@@ -1,0 +1,932 @@
+2026-04-13 12:25:07,576 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+2026-04-13 12:25:07,586 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+2026-04-13 12:25:07,638 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+2026-04-13 12:25:07,646 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")
+2026-04-13 12:26:58,535 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 272, in sql
+    self.execute_query(query, values)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 372, in execute_query
+    return self._cursor.execute(query, values)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table '_29402e52a87f28e9.tabDefaultValue' doesn't exist")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 272, in sql
+    self.execute_query(query, values)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 372, in execute_query
+    return self._cursor.execute(query, values)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table '_29402e52a87f28e9.tabDefaultValue' doesn't exist")
+2026-04-13 12:26:58,546 ERROR frappe Unable to load translations
+Site: crm.localhost
+Form Dict: {}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 102, in application
+    init_request(request)
+    ~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/app.py", line 178, in init_request
+    frappe.init(site, sites_path=_sites_path, force=True)
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 205, in init
+    setup_module_map(include_all_apps=not (frappe.request or frappe.job or frappe.flags.in_migrate))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 1035, in setup_module_map
+    apps = get_installed_apps(_ensure_on_bench=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 272, in sql
+    self.execute_query(query, values)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 372, in execute_query
+    return self._cursor.execute(query, values)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table '_29402e52a87f28e9.tabDefaultValue' doesn't exist")
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x7516bf580e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 164, in get_all_translations
+    return frappe.cache.hget(MERGED_TRANSLATION_KEY, lang, generator=_merge_translations)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 253, in hget
+    value = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 152, in _merge_translations
+    all_translations.update(get_translations_from_apps(lang))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/translate.py", line 179, in get_translations_from_apps
+    for app in apps or frappe.get_installed_apps(_ensure_on_bench=True):
+                       ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 272, in sql
+    self.execute_query(query, values)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 372, in execute_query
+    return self._cursor.execute(query, values)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 179, in execute
+    res = self._query(mogrified_query)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/cursors.py", line 330, in _query
+    db.query(q)
+    ~~~~~~~~^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 280, in query
+    _mysql.connection.query(self, query)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+MySQLdb.ProgrammingError: (1146, "Table '_29402e52a87f28e9.tabDefaultValue' doesn't exist")
+2026-04-13 12:29:35,586 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'frappe.utils.telemetry.pulse.client.is_enabled'}
+2026-04-13 12:29:35,590 ERROR frappe Failed to capture exception
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.session.get_users'}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 611, in get_json
+    rv = self.json_module.loads(data)
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 560, in json
+    return self.get_json()
+           ~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 620, in get_json
+    rv = self.on_json_loading_failed(e)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 645, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2026-04-13 12:29:35,596 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'Event', 'cmd': 'frappe.model.utils.user_settings.get'}
+2026-04-13 12:29:35,608 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.session.get_users'}
+2026-04-13 12:29:35,598 ERROR frappe Failed to capture exception
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.get_posthog_settings'}
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 611, in get_json
+    rv = self.json_module.loads(data)
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/.pyenv/versions/3.14.3/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/sentry.py", line 122, in capture_exception
+    scope.set_context("JSON Body", frappe.request.json)
+                                   ^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/local.py", line 66, in __getattr__
+    return getattr(self._get_current_object(), name)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 560, in json
+    return self.get_json()
+           ~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 620, in get_json
+    rv = self.on_json_loading_failed(e)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/werkzeug/wrappers/request.py", line 645, in on_json_loading_failed
+    raise BadRequest(f"Failed to decode JSON object: {e}")
+werkzeug.exceptions.BadRequest: 400 Bad Request: Failed to decode JSON object: Expecting value: line 1 column 1 (char 0)
+2026-04-13 12:29:35,614 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.get_posthog_settings'}
+2026-04-13 12:31:17,373 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Lead', 'cmd': 'crm.api.doc.get_sidebar_stats'}
+2026-04-13 12:31:29,279 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Lead', 'cmd': 'crm.api.doc.get_sidebar_stats'}
+2026-04-14 00:42:28,716 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'reference_doctype': 'CRM Deal', 'limit': 50, 'cmd': 'crm.api.ai.get_conversation_history'}
+2026-04-14 20:55:39,309 ERROR frappe Error while inserting deferred Error Log record: (1406, "Data too long for column 'method' at row 1")
+Site: crm.localhost
+Form Dict: {}
+2026-04-14 20:55:39,314 ERROR frappe Error while inserting deferred Error Log record: (1406, "Data too long for column 'method' at row 1")
+Site: crm.localhost
+Form Dict: {}
+2026-04-14 20:55:39,318 ERROR frappe Error while inserting deferred Error Log record: (1406, "Data too long for column 'method' at row 1")
+Site: crm.localhost
+Form Dict: {}
+2026-04-14 20:55:39,321 ERROR frappe Error while inserting deferred Error Log record: (1406, "Data too long for column 'method' at row 1")
+Site: crm.localhost
+Form Dict: {}
+2026-04-14 23:17:32,712 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:17:32,719 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:43:28,452 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:43:28,479 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:43:29,098 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-14 23:46:41,517 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:46:41,545 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-14 23:46:42,131 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-14 23:50:20,005 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'note_content': 'Prospect asked for pricing comparison and integration timeline. Follow-up expected this Friday.', 'cmd': 'crm.api.research_lab.generate_summary_for_note'}
+2026-04-15 00:04:13,003 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:04:13,018 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:04:13,192 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-15 00:04:34,895 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'note_content': 'Prospect asked for pricing comparison and integration timeline. Follow-up expected this Friday.', 'cmd': 'crm.api.research_lab.generate_summary_for_note'}
+2026-04-15 00:04:41,769 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'note_content': 'Prospect asked for pricing comparison and integration timeline. Follow-up expected this Friday.', 'cmd': 'crm.api.research_lab.generate_summary_for_note'}
+2026-04-15 00:05:39,206 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:05:39,217 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:05:39,416 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-15 00:06:00,365 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:06:00,385 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:06:00,747 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:06:00,765 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:06:00,813 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-15 00:06:01,418 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'cmd': 'crm.api.research_lab.get_real_fairness_audit'}
+2026-04-15 00:12:52,307 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:12:52,307 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:12:52,308 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:12:52,308 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:34:49,183 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:34:49,183 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:34:49,198 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:34:49,198 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:36:11,190 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:36:11,190 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:36:11,207 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:36:11,207 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:51:15,676 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:51:15,676 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:51:15,677 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:51:15,677 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 00:51:35,695 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'lead_name': 'CRM-LEAD-2026-00081', 'cmd': 'crm.api.research_lab.calculate_explainable_score'}
+2026-04-15 00:51:35,695 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'lead_name': 'CRM-LEAD-2026-00081', 'cmd': 'crm.api.research_lab.calculate_explainable_score'}
+2026-04-15 22:58:28,108 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 22:58:28,108 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Deal', 'fields': ['name', 'deal_name', 'organization'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 22:58:28,123 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}
+2026-04-15 22:58:28,123 ERROR frappe New Exception collected in error log
+Site: crm.localhost
+Form Dict: {'doctype': 'CRM Note', 'fields': ['name', 'title', 'content', 'reference_doctype', 'reference_name'], 'start': 0, 'limit': 20, 'limit_start': 0, 'limit_page_length': 20, 'debug': 0, 'cmd': 'frappe.client.get_list'}

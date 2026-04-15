@@ -3,7 +3,6 @@
     doctype="Helpdesk CRM Settings"
     :title="__('Helpdesk settings')"
     :successMessage="__('Helpdesk settings updated')"
-    class="p-8"
   />
 </template>
 <script setup>

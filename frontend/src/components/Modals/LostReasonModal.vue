@@ -5,39 +5,41 @@
     @close="cancel"
   >
     <template #body-content>
-      <div class="-mt-3 mb-4 text-p-base text-ink-gray-7">
+      <div class="lost-reason-body">
+        <div class="-mt-3 mb-4 text-p-base text-ink-gray-7">
         {{ __('Please provide a reason for marking this deal as lost') }}
-      </div>
-      <div class="flex flex-col gap-3">
-        <div>
-          <div class="mb-2 text-sm text-ink-gray-5">
-            {{ __('Lost reason') }}
-            <span class="text-ink-red-2">*</span>
-          </div>
-          <Link
-            class="form-control flex-1 truncate"
-            :value="lostReason"
-            doctype="CRM Lost Reason"
-            @change="(v) => (lostReason = v)"
-            :onCreate="onCreate"
-          />
         </div>
-        <div>
-          <div class="mb-2 text-sm text-ink-gray-5">
-            {{ __('Lost notes') }}
-            <span v-if="lostReason == 'Other'" class="text-ink-red-2">*</span>
+        <div class="flex flex-col gap-3">
+          <div>
+            <div class="mb-2 text-sm text-ink-gray-5">
+              {{ __('Lost reason') }}
+              <span class="text-ink-red-2">*</span>
+            </div>
+            <Link
+              class="form-control flex-1 truncate"
+              :value="lostReason"
+              doctype="CRM Lost Reason"
+              @change="(v) => (lostReason = v)"
+              :onCreate="onCreate"
+            />
           </div>
-          <FormControl
-            class="form-control flex-1 truncate"
-            type="textarea"
-            :value="lostNotes"
-            @change="(e) => (lostNotes = e.target.value)"
-          />
+          <div>
+            <div class="mb-2 text-sm text-ink-gray-5">
+              {{ __('Lost notes') }}
+              <span v-if="lostReason == 'Other'" class="text-ink-red-2">*</span>
+            </div>
+            <FormControl
+              class="form-control flex-1 truncate"
+              type="textarea"
+              :value="lostNotes"
+              @change="(e) => (lostNotes = e.target.value)"
+            />
+          </div>
         </div>
       </div>
     </template>
     <template #actions>
-      <div class="flex justify-between items-center gap-2">
+      <div class="lost-reason-actions flex justify-between items-center gap-2">
         <div><ErrorMessage :message="error" /></div>
         <div class="flex gap-2">
           <Button :label="__('Cancel')" @click="cancel" />
@@ -96,3 +98,21 @@ function onCreate(value, close) {
   createDocument('CRM Lost Reason', value, close)
 }
 </script>
+
+<style scoped>
+.lost-reason-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  padding: 0.9rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.lost-reason-actions {
+  margin-top: 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  padding: 0.55rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+</style>

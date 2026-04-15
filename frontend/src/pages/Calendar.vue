@@ -1,24 +1,25 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs routeName="Calendar" />
-    </template>
-    <template #right-header>
-      <ShortcutTooltip :label="__('Create event')" combo="Mod+E">
-        <Button
-          variant="solid"
-          :label="__('Create')"
-          :disabled="isCreateDisabled"
-          @click="newEvent"
-        >
-          <template #prefix><FeatherIcon name="plus" class="h-4" /></template>
-        </Button>
-      </ShortcutTooltip>
-    </template>
-  </LayoutHeader>
-  <div class="flex h-screen overflow-hidden">
+  <div class="calendar-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs routeName="Calendar" />
+      </template>
+      <template #right-header>
+        <ShortcutTooltip :label="__('Create event')" combo="Mod+E">
+          <Button
+            variant="solid"
+            :label="__('Create')"
+            :disabled="isCreateDisabled"
+            @click="newEvent"
+          >
+            <template #prefix><FeatherIcon name="plus" class="h-4" /></template>
+          </Button>
+        </ShortcutTooltip>
+      </template>
+    </LayoutHeader>
+    <div class="calendar-shell mt-3 flex h-[calc(100%-1rem)] overflow-hidden rounded-2xl">
     <Calendar
-      class="flex-1 overflow-hidden"
+      class="calendar-main flex-1 overflow-hidden"
       ref="calendar"
       :config="{
         defaultMode: defaultMode,
@@ -131,7 +132,7 @@
       class="overflow-hidden flex-none transition-all duration-300 ease-in-out flex flex-col"
       :class="
         showEventPanel
-          ? 'w-[352px] border-l bg-surface-white'
+          ? 'w-[352px] border-l border-[var(--crm-border)] bg-[var(--crm-surface)]'
           : 'w-0 border-l-0'
       "
     >
@@ -150,6 +151,7 @@
         @close="close"
         @sync="syncEvent"
       />
+    </div>
     </div>
   </div>
 </template>
@@ -616,3 +618,20 @@ async function ensureParticipantContacts(participants) {
   return updated
 }
 </script>
+
+<style scoped>
+.calendar-page {
+  height: 100%;
+}
+
+.calendar-shell {
+  border: 1px solid var(--crm-border);
+  background: rgba(8, 9, 18, 0.4);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+.calendar-main :deep(.fc-toolbar) {
+  border-bottom: 1px solid var(--crm-border);
+}
+</style>

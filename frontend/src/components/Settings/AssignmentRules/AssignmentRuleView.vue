@@ -1,9 +1,9 @@
 <template>
   <div
     v-if="!getAssignmentRuleData.loading"
-    class="flex flex-col h-full gap-6 px-6 py-8 text-ink-gray-8"
+    class="assignment-rule-view flex flex-col h-full gap-6 px-6 py-8 text-ink-gray-8"
   >
-    <div class="flex items-center justify-between px-2 w-full">
+    <div class="assignment-rule-view-head flex items-center justify-between px-2 w-full">
       <div class="flex items-center gap-2">
         <Button
           variant="ghost"
@@ -41,7 +41,7 @@
         />
       </div>
     </div>
-    <div class="overflow-y-auto px-2">
+    <div class="assignment-rule-view-body overflow-y-auto px-2">
       <div class="grid grid-cols-2 gap-5">
         <div>
           <FormControl
@@ -780,3 +780,21 @@ onUnmounted(() => {
   disableSettingModalOutsideClick.value = false
 })
 </script>
+
+<style scoped>
+.assignment-rule-view-head,
+.assignment-rule-view-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.assignment-rule-view-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.assignment-rule-view-body {
+  padding: 0.75rem;
+}
+</style>

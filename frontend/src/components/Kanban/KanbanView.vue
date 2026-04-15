@@ -1,5 +1,5 @@
 <template>
-  <div class="flex overflow-x-auto h-full">
+  <div class="kanban-shell flex h-full overflow-x-auto">
     <Draggable
       v-if="columns"
       :list="columns"
@@ -11,7 +11,7 @@
       <template #item="{ element: column }">
         <div
           v-if="!column.column.delete"
-          class="flex flex-col gap-2.5 min-w-72 w-72 hover:bg-surface-gray-2 rounded-lg p-2.5"
+          class="kanban-column flex min-w-72 w-72 flex-col gap-2.5 rounded-lg p-2.5"
         >
           <div class="flex gap-2 items-center group justify-between">
             <div class="flex items-center text-base">
@@ -82,7 +82,7 @@
               <template #item="{ element: fields }">
                 <component
                   :is="options.getRoute ? 'router-link' : 'div'"
-                  class="pt-3 px-3.5 pb-2.5 rounded-lg border bg-surface-white text-base flex flex-col text-ink-gray-9"
+                  class="kanban-card flex flex-col rounded-lg px-3.5 pb-2.5 pt-3 text-base text-ink-gray-9"
                   :data-name="fields.name"
                   v-bind="{
                     to: options.getRoute ? options.getRoute(fields) : undefined,
@@ -260,3 +260,23 @@ function updateColumn(d) {
   emit('update', data)
 }
 </script>
+
+<style scoped>
+.kanban-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.kanban-column {
+  border: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+}
+
+.kanban-card {
+  border: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 95%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

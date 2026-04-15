@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-8 text-ink-gray-8">
+  <div class="new-email-template-page flex h-full flex-col gap-6 p-8 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between">
+    <div class="new-email-template-head flex justify-between">
       <div class="flex gap-1 -ml-4 w-9/12">
         <Button
           variant="ghost"
@@ -29,7 +29,7 @@
     </div>
 
     <!-- Fields -->
-    <div class="flex flex-1 flex-col gap-4 overflow-y-auto">
+    <div class="new-email-template-body flex flex-1 flex-col gap-4 overflow-y-auto">
       <div class="flex sm:flex-row flex-col gap-4">
         <div class="flex-1">
           <FormControl
@@ -190,3 +190,21 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+.new-email-template-head,
+.new-email-template-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.new-email-template-head {
+  padding: 0.75rem 0.9rem;
+}
+
+.new-email-template-body {
+  padding: 0.85rem;
+}
+</style>

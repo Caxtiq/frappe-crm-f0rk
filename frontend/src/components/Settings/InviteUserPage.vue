@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-full flex-col gap-6 py-8 px-6 text-ink-gray-8">
-    <div class="flex px-2 justify-between">
+  <div class="invite-page flex h-full flex-col gap-6 py-8 px-6 text-ink-gray-8">
+    <div class="invite-head flex px-2 justify-between">
       <div class="flex flex-col gap-1 w-9/12">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Send invites to') }}
@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <div class="flex-1 flex flex-col px-2 gap-8 overflow-y-auto">
+    <div class="invite-body flex-1 flex flex-col px-2 gap-8 overflow-y-auto">
       <div>
         <FormControl
           type="textarea"
@@ -211,3 +211,21 @@ function updateInvitees(value) {
   invitees.value = emails
 }
 </script>
+
+<style scoped>
+.invite-head,
+.invite-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.invite-head {
+  padding: 0.6rem 0.5rem;
+}
+
+.invite-body {
+  padding: 0.75rem;
+}
+</style>

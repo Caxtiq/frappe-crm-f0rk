@@ -1,5 +1,5 @@
 <template>
-    <div v-if="selectedLog">
+    <div v-if="selectedLog" class="failure-log-detail">
         <div class="flex justify-between items-center">
             <Button variant="ghost" icon-left="chevron-left" @click="selectedLog = null">
                 {{ __("Back to all logs") }}
@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <ListView v-if="!selectedLog && failedLeadSyncLogList?.data" class="h-full" :columns="columns"
+    <ListView v-if="!selectedLog && failedLeadSyncLogList?.data" class="failure-log-list h-full" :columns="columns"
         :rows="failedLeadSyncLogList?.data" :options="{
             selectable: false,
             showTooltip: true,
@@ -104,3 +104,14 @@ watch(selectedLog, () => {
     });
 })
 </script>
+
+<style scoped>
+.failure-log-detail,
+.failure-log-list {
+    border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+    border-radius: 1rem;
+    background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+    box-shadow: var(--shadow-soft);
+    padding: 0.75rem;
+}
+</style>

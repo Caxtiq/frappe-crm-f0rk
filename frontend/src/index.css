@@ -1,5 +1,157 @@
 @import 'frappe-ui/style.css';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
+/* ============================================================
+   DARK-MODE FIRST DESIGN TOKENS — Navy + Electric Violet
+   ============================================================ */
+:root {
+	/* Backgrounds */
+	--crm-bg:            #0d0f17;
+	--crm-bg-2:          #11131d;
+	--crm-surface:       rgba(19, 21, 35, 0.88);
+	--crm-surface-2:     #1a1d2e;
+	--crm-surface-strong:#1e2133;
+
+	/* Borders */
+	--crm-border:        rgba(124, 108, 248, 0.13);
+	--crm-border-strong: rgba(124, 108, 248, 0.28);
+
+	/* Text */
+	--crm-text:          #e4e8f0;
+	--crm-text-soft:     #8b92a8;
+	--crm-text-muted:    #4d5470;
+
+	/* Brand / Accent */
+	--crm-brand:         #7c6cf8;
+	--crm-brand-2:       #a78bfa;
+	--crm-brand-glow:    rgba(124, 108, 248, 0.22);
+
+	/* Shadows */
+	--crm-shadow:        0 16px 48px rgba(0, 0, 0, 0.55);
+	--crm-shadow-sm:     0 4px 16px rgba(0, 0, 0, 0.40);
+	--crm-glow-ring:     0 0 0 1px rgba(124, 108, 248, 0.25),
+	                     0 0 24px rgba(124, 108, 248, 0.14);
+}
+
+/* Light-mode overrides (opt-in via [data-theme="light"]) */
+[data-theme="light"] {
+	--crm-bg:            #f6f5ff;
+	--crm-bg-2:          #ede9ff;
+	--crm-surface:       rgba(255, 255, 255, 0.85);
+	--crm-surface-2:     #f9f8ff;
+	--crm-surface-strong:#ffffff;
+	--crm-border:        rgba(100, 82, 224, 0.14);
+	--crm-border-strong: rgba(100, 82, 224, 0.26);
+	--crm-text:          #1a1840;
+	--crm-text-soft:     #5f5a8a;
+	--crm-text-muted:    #9994be;
+	--crm-brand:         #6452e0;
+	--crm-brand-2:       #8b7cf8;
+	--crm-brand-glow:    rgba(100, 82, 224, 0.18);
+	--crm-shadow:        0 16px 48px rgba(20, 16, 60, 0.12);
+	--crm-shadow-sm:     0 4px 16px rgba(20, 16, 60, 0.08);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html,
+body,
+#app {
+	min-height: 100%;
+}
+
+body {
+	font-family: 'Inter', sans-serif;
+	color: var(--crm-text);
+	background-color: var(--crm-bg);
+	background-image:
+		radial-gradient(ellipse 72% 60% at 8% -12%,  rgba(124, 108, 248, 0.22), transparent),
+		radial-gradient(ellipse 55% 45% at 96%  8%,  rgba(167, 139, 250, 0.16), transparent),
+		radial-gradient(ellipse 40% 35% at 50% 100%, rgba(109,  86, 245, 0.10), transparent),
+		linear-gradient(160deg, var(--crm-bg) 0%, var(--crm-bg-2) 100%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	letter-spacing: -0.02em;
+}
+
+#app {
+	position: relative;
+	isolation: isolate;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Glassy surface — sidebar panels, dropdowns */
+.crm-glass {
+	border: 1px solid var(--crm-border);
+	background: var(--crm-surface);
+	box-shadow: var(--crm-shadow);
+	backdrop-filter: blur(18px) saturate(1.4);
+}
+
+/* Solid elevated card */
+.crm-panel {
+	border: 1px solid var(--crm-border);
+	background: var(--crm-surface-strong);
+	box-shadow: var(--crm-shadow-sm);
+}
+
+/* Glowing accent card */
+.crm-glow {
+	border: 1px solid var(--crm-border-strong);
+	background: var(--crm-surface-2);
+	box-shadow: var(--crm-glow-ring);
+}
+
+/* Small pill / badge helper */
+.crm-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	padding: 0.15rem 0.55rem;
+	border-radius: 999px;
+	background: rgba(124, 108, 248, 0.15);
+	color: var(--crm-brand-2);
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+	border: 1px solid rgba(124, 108, 248, 0.22);
+}
+
+/* Entry animation */
+.crm-fade-up {
+	animation: crmFadeUp 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes crmFadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Scrollbar — subtle dark */
+* {
+	scrollbar-width: thin;
+	scrollbar-color: rgba(124, 108, 248, 0.2) transparent;
+}
+*::-webkit-scrollbar { width: 5px; height: 5px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: rgba(124, 108, 248, 0.2); border-radius: 999px; }
+*::-webkit-scrollbar-thumb:hover { background: rgba(124, 108, 248, 0.4); }
+
+/* ============================================================
+   PROSE (email bodies / notes)
+   ============================================================ */
 @layer components {
   .prose-f {
     @apply break-all

@@ -2,22 +2,22 @@
   <div class="ai-suggestions-container">
     <div class="flex items-center justify-between mb-4">
       <div class="flex items-center gap-2">
-        <Icon name="lightbulb" class="w-5 h-5 text-yellow-500" />
-        <h3 class="text-lg font-semibold">AI Suggestions</h3>
+        <FeatherIcon name="lightbulb" class="w-5 h-5 text-ink-yellow-3" />
+        <h3 class="text-lg font-semibold text-ink-gray-9">AI Suggestions</h3>
       </div>
       <Button variant="ghost" size="sm" @click="loadSuggestions">
-        <Icon name="refresh-cw" class="w-4 h-4" />
+        <FeatherIcon name="refresh-cw" class="w-4 h-4" />
       </Button>
     </div>
 
     <div v-if="loading" class="text-center py-8">
-      <div class="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-      <p class="text-sm text-gray-500 mt-2">Loading suggestions...</p>
+      <div class="animate-spin w-6 h-6 border-2 border-ink-blue-3 border-t-transparent rounded-full mx-auto"></div>
+      <p class="text-sm text-ink-gray-5 mt-2">Loading suggestions...</p>
     </div>
 
     <div v-else-if="suggestions.length === 0" class="text-center py-8">
-      <Icon name="lightbulb" class="w-12 h-12 text-gray-300 mx-auto mb-3" />
-      <p class="text-sm text-gray-500">No suggestions available</p>
+      <FeatherIcon name="lightbulb" class="w-12 h-12 text-ink-gray-4 mx-auto mb-3" />
+      <p class="text-sm text-ink-gray-5">No suggestions available</p>
       <Button variant="subtle" size="sm" class="mt-3" @click="generateSuggestion">
         Generate Suggestion
       </Button>
@@ -52,7 +52,7 @@
               size="sm"
               @click="acceptSuggestion(suggestion.name)"
             >
-              <Icon name="check" class="w-4 h-4 text-green-600" />
+              <FeatherIcon name="check" class="w-4 h-4 text-green-600" />
             </Button>
             <Button
               v-if="suggestion.status === 'Pending'"
@@ -60,7 +60,7 @@
               size="sm"
               @click="rejectSuggestion(suggestion.name)"
             >
-              <Icon name="x" class="w-4 h-4 text-red-600" />
+              <FeatherIcon name="x" class="w-4 h-4 text-red-600" />
             </Button>
           </div>
         </div>
@@ -79,7 +79,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { createResource } from 'frappe-ui'
-import { Icon, Button, Badge } from 'frappe-ui'
+import { FeatherIcon, Button, Badge } from 'frappe-ui'
 
 const props = defineProps({
   referenceDoctype: {
@@ -183,6 +183,7 @@ onMounted(() => {
 <style scoped>
 .ai-suggestions-container {
   padding: 1rem;
+  background: var(--surface-white);
 }
 
 .suggestions-list {
@@ -192,25 +193,26 @@ onMounted(() => {
 }
 
 .suggestion-card {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--outline-gray-2);
   border-radius: 8px;
   padding: 1rem;
-  background: white;
+  background: var(--surface-white);
   transition: all 0.2s;
 }
 
 .suggestion-card:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: var(--outline-gray-3);
 }
 
 .suggestion-card.accepted {
-  border-color: #10b981;
-  background: #f0fdf4;
+  border-color: var(--ink-green-3);
+  background: var(--surface-green-1);
 }
 
 .suggestion-card.rejected {
-  border-color: #ef4444;
-  background: #fef2f2;
+  border-color: var(--ink-red-3);
+  background: var(--surface-red-1);
   opacity: 0.7;
 }
 
@@ -233,13 +235,13 @@ onMounted(() => {
 }
 
 .suggestion-text {
-  color: #374151;
+  color: var(--ink-gray-8);
   line-height: 1.6;
   white-space: pre-wrap;
 }
 
 .suggestion-time {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--ink-gray-5);
 }
 </style>

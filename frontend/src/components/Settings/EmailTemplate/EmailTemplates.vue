@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-6 text-ink-gray-8">
+  <div class="email-templates-page flex h-full flex-col gap-6 p-6 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 pt-2">
+    <div class="email-templates-head flex justify-between px-2 pt-2">
       <div class="flex flex-col gap-1 w-9/12">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Email templates') }}
@@ -47,7 +47,7 @@
 
     <!-- Email template list -->
     <div
-      class="flex flex-col overflow-hidden"
+      class="email-templates-body flex flex-col overflow-hidden"
       v-if="!templates.loading && templates.data?.length"
     >
       <div
@@ -245,3 +245,21 @@ function getDropdownOptions(template) {
   return options
 }
 </script>
+
+<style scoped>
+.email-templates-head,
+.email-templates-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.email-templates-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.email-templates-body {
+  padding: 0.65rem;
+}
+</style>

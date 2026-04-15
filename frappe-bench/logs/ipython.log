@@ -1,0 +1,232 @@
+2026-02-16 01:57:15,605 INFO ipython === bench console session ===
+2026-02-16 01:57:15,605 INFO ipython print(frappe.get_meta('CRM AI Settings').name)
+2026-02-16 01:57:15,605 INFO ipython === session end ===
+2026-02-16 01:58:14,007 INFO ipython === bench console session ===
+2026-02-16 01:58:14,007 INFO ipython import frappe; frappe.reload_doc('fcrm', 'doctype', 'crm_ai_settings'); print('Reloaded CRM AI Settings')
+2026-02-16 01:58:14,007 INFO ipython === session end ===
+2026-02-16 01:58:53,804 INFO ipython === bench console session ===
+2026-02-16 01:58:53,804 INFO ipython import frappe; frappe.reload_doc('fcrm', 'doctype', 'crm_ai_settings'); frappe.reload_doc('fcrm', 'doctype', 'crm_ai_conversation'); frappe.reload_doc('fcrm', 'doctype', 'crm_ai_suggestion'); print('All AI DocTypes reloaded')
+2026-02-16 01:58:53,804 INFO ipython === session end ===
+2026-04-13 23:58:14,900 INFO ipython === bench console session ===
+2026-04-13 23:58:14,902 INFO ipython import crm.utils.fake_data as fd
+2026-04-13 23:58:14,902 INFO ipython result = fd.seed_fake_data(40, 22)
+2026-04-13 23:58:14,902 INFO ipython print(result)
+2026-04-13 23:58:14,902 INFO ipython === session end ===
+2026-04-13 23:59:25,659 INFO ipython === bench console session ===
+2026-04-13 23:59:25,659 INFO ipython import crm.utils.fake_data as fd
+2026-04-13 23:59:25,660 INFO ipython result = fd.seed_fake_data(40, 22)
+2026-04-13 23:59:25,660 INFO ipython print(result)
+2026-04-13 23:59:25,660 INFO ipython === session end ===
+2026-04-14 00:14:53,269 INFO ipython === bench console session ===
+2026-04-14 00:14:53,269 INFO ipython import crm.utils.fake_data as fd
+2026-04-14 00:14:53,270 INFO ipython print(fd.seed_fake_data(180, 120, 540))
+2026-04-14 00:14:53,270 INFO ipython === session end ===
+2026-04-14 00:26:06,785 INFO ipython === bench console session ===
+2026-04-14 00:26:06,785 INFO ipython import re
+2026-04-14 00:26:06,785 INFO ipython from pathlib import Path
+2026-04-14 00:26:06,785 INFO ipython import frappe
+2026-04-14 00:26:06,785 INFO ipython OUT = Path('/home/emlad/Developer/frappe-crm-f0rk/CRM_DATABASE_ERD.md')
+2026-04-14 00:26:06,786 INFO ipython # Keep scope to CRM app tables so the diagram is renderable and useful.
+2026-04-14 00:26:06,786 INFO ipython sql = '''
+SELECT table_name, column_name, data_type, column_key
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND (table_name LIKE 'tabCRM %' OR table_name LIKE 'tabFCRM %')
+ORDER BY table_name, ordinal_position
+'''
+2026-04-14 00:26:06,786 INFO ipython rows = frappe.db.sql(sql, as_dict=True)
+2026-04-14 00:26:06,786 INFO ipython if not rows:
+    raise Exception('No CRM/FCRM tables found in current database.')
+2026-04-14 00:26:06,786 INFO ipython # Group columns per table
+2026-04-14 00:26:06,786 INFO ipython tables = {}
+2026-04-14 00:26:06,786 INFO ipython for r in rows:
+    tables.setdefault(r.table_name, []).append(r)
+2026-04-14 00:26:06,786 INFO ipython # Map table name -> doctype name
+2026-04-14 00:26:06,786 INFO ipython table_to_dt = {t: t.replace('tab', '', 1) for t in tables.keys()}
+2026-04-14 00:26:06,786 INFO ipython # Sanitizer for Mermaid entity IDs
+2026-04-14 00:26:06,786 INFO ipython def ent(name: str) -> str:
+    s = re.sub(r'[^A-Za-z0-9_]', '_', name.strip())
+    if s and s[0].isdigit():
+        s = '_' + s
+    return s
+2026-04-14 00:26:06,786 INFO ipython # Collect relations inferred from Link/Table fields
+2026-04-14 00:26:06,786 INFO ipython relations = []
+2026-04-14 00:26:06,786 INFO ipython entities_defined = set()
+2026-04-14 00:26:06,786 INFO ipython # Build set of CRM/FCRM doctypes present as SQL tables
+2026-04-14 00:26:06,786 INFO ipython crm_doctypes = set(table_to_dt.values())
+2026-04-14 00:26:06,786 INFO ipython for dt in sorted(crm_doctypes):
+    # Table child relations: ParentDocType ||--o{ ChildDocType
+    parent_links = frappe.get_all(
+        'DocField',
+        filters={
+            'parent': dt,
+            'fieldtype': ['in', ['Table', 'Table MultiSelect']],
+        },
+        fields=['fieldname', 'options'],
+        limit_page_length=2000,
+    )
+    for f in parent_links:
+        child = (f.options or '').strip()
+        if not child:
+            continue
+        relations.append((dt, child, f.fieldname, 'table'))
+2026-04-14 00:26:06,787 INFO ipython     # Link relations: this doctype many-to-one target doctype
+2026-04-14 00:26:06,787 INFO ipython     link_fields = frappe.get_all(
+        'DocField',
+        filters={
+            'parent': dt,
+            'fieldtype': 'Link',
+        },
+        fields=['fieldname', 'options'],
+        limit_page_length=2000,
+    )
+2026-04-14 00:26:06,787 INFO ipython     for f in link_fields:
+        target = (f.options or '').strip()
+        if not target:
+            continue
+        relations.append((dt, target, f.fieldname, 'link'))
+2026-04-14 00:26:06,787 INFO ipython # Render markdown + mermaid
+2026-04-14 00:26:06,787 INFO ipython lines = []
+2026-04-14 00:26:06,787 INFO ipython lines.append('# CRM Database ERD')
+2026-04-14 00:26:06,788 INFO ipython lines.append('')
+2026-04-14 00:26:06,788 INFO ipython lines.append('Generated from site metadata and database columns for CRM/FCRM tables on `crm.localhost`.')
+2026-04-14 00:26:06,788 INFO ipython lines.append('')
+2026-04-14 00:26:06,788 INFO ipython lines.append('- Includes all SQL columns for tables matching `tabCRM %` and `tabFCRM %`.')
+2026-04-14 00:26:06,788 INFO ipython lines.append('- Includes inferred relationships from DocField `Link`, `Table`, and `Table MultiSelect` fields.')
+2026-04-14 00:26:06,789 INFO ipython lines.append('')
+2026-04-14 00:26:06,789 INFO ipython lines.append('```mermaid')
+2026-04-14 00:26:06,789 INFO ipython lines.append('erDiagram')
+2026-04-14 00:26:06,790 INFO ipython for table_name in sorted(tables.keys()):
+    dt = table_to_dt[table_name]
+    e = ent(dt)
+    entities_defined.add(dt)
+    lines.append(f'  {e} {{')
+    for c in tables[table_name]:
+        dtype = c['data_type']
+        cname = c['column_name']
+        key = c['column_key']
+        tag = ' PK' if key == 'PRI' else ''
+        lines.append(f'    {dtype} {cname}{tag}')
+    lines.append('  }')
+2026-04-14 00:26:06,790 INFO ipython # Add relation lines. Undefined targets are allowed in Mermaid and appear as stubs.
+2026-04-14 00:26:06,790 INFO ipython seen = set()
+2026-04-14 00:26:06,790 INFO ipython for src, dst, fieldname, rtype in sorted(relations, key=lambda x: (x[0], x[1], x[2])):
+    s = ent(src)
+    d = ent(dst)
+    if rtype == 'table':
+        rel = f'  {s} ||--o{{ {d} : "{fieldname}"'
+    else:
+        rel = f'  {s} }}o--|| {d} : "{fieldname}"'
+    if rel not in seen:
+        seen.add(rel)
+        lines.append(rel)
+2026-04-14 00:26:06,790 INFO ipython lines.append('```')
+2026-04-14 00:26:06,790 INFO ipython lines.append('')
+2026-04-14 00:26:06,790 INFO ipython lines.append('## Notes')
+2026-04-14 00:26:06,790 INFO ipython lines.append('')
+2026-04-14 00:26:06,790 INFO ipython lines.append('- Frappe does not enforce most foreign keys at SQL level, so links are inferred from DocField metadata.')
+2026-04-14 00:26:06,790 INFO ipython lines.append('- Some related doctypes outside CRM/FCRM (for example `User`, `Contact`) may appear as relationship endpoints.')
+2026-04-14 00:26:06,790 INFO ipython OUT.write_text('\n'.join(lines), encoding='utf-8')
+2026-04-14 00:26:06,790 INFO ipython print(f'WROTE {OUT}')
+2026-04-14 00:26:06,790 INFO ipython === session end ===
+2026-04-14 00:26:34,820 INFO ipython === bench console session ===
+2026-04-14 00:26:34,820 INFO ipython from pathlib import Path
+2026-04-14 00:26:34,820 INFO ipython import frappe
+2026-04-14 00:26:34,820 INFO ipython out = Path('/home/emlad/Developer/frappe-crm-f0rk/CRM_DATABASE_ERD.md')
+2026-04-14 00:26:34,821 INFO ipython rows = frappe.db.sql('''
+SELECT table_name, column_name, data_type, column_key
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND (table_name LIKE 'tabCRM %' OR table_name LIKE 'tabFCRM %')
+ORDER BY table_name, ordinal_position
+''', as_dict=True)
+2026-04-14 00:26:34,821 INFO ipython if not rows:
+    raise Exception('No CRM/FCRM tables found')
+2026-04-14 00:26:34,821 INFO ipython tables = {}
+2026-04-14 00:26:34,822 INFO ipython for r in rows:
+    tables.setdefault(r.table_name, []).append(r)
+2026-04-14 00:26:34,822 INFO ipython table_to_dt = {t: t.replace('tab', '', 1) for t in tables}
+2026-04-14 00:26:34,822 INFO ipython # simple sanitizer without regex imports
+2026-04-14 00:26:34,822 INFO ipython def ent(name):
+    chars = []
+    for ch in name.strip():
+        if ch.isalnum() or ch == '_':
+            chars.append(ch)
+        else:
+            chars.append('_')
+    s = ''.join(chars)
+    if s and s[0].isdigit():
+        s = '_' + s
+    return s
+2026-04-14 00:26:34,822 INFO ipython crm_doctypes = set(table_to_dt.values())
+2026-04-14 00:26:34,822 INFO ipython relations = []
+2026-04-14 00:26:34,822 INFO ipython for dt in sorted(crm_doctypes):
+    parent_links = frappe.get_all(
+        'DocField',
+        filters={'parent': dt, 'fieldtype': ['in', ['Table', 'Table MultiSelect']]},
+        fields=['fieldname', 'options'],
+        limit_page_length=2000,
+    )
+    for f in parent_links:
+        child = (f.options or '').strip()
+        if child:
+            relations.append((dt, child, f.fieldname, 'table'))
+2026-04-14 00:26:34,822 INFO ipython     link_fields = frappe.get_all(
+        'DocField',
+        filters={'parent': dt, 'fieldtype': 'Link'},
+        fields=['fieldname', 'options'],
+        limit_page_length=2000,
+    )
+2026-04-14 00:26:34,822 INFO ipython     for f in link_fields:
+        target = (f.options or '').strip()
+        if target:
+            relations.append((dt, target, f.fieldname, 'link'))
+2026-04-14 00:26:34,822 INFO ipython lines = []
+2026-04-14 00:26:34,823 INFO ipython lines.append('# CRM Database ERD')
+2026-04-14 00:26:34,823 INFO ipython lines.append('')
+2026-04-14 00:26:34,823 INFO ipython lines.append('Generated from site metadata and database columns for CRM/FCRM tables on `crm.localhost`.')
+2026-04-14 00:26:34,823 INFO ipython lines.append('')
+2026-04-14 00:26:34,823 INFO ipython lines.append('- Includes all SQL columns for tables matching `tabCRM %` and `tabFCRM %`.')
+2026-04-14 00:26:34,823 INFO ipython lines.append('- Includes inferred relationships from DocField `Link`, `Table`, and `Table MultiSelect` fields.')
+2026-04-14 00:26:34,823 INFO ipython lines.append('')
+2026-04-14 00:26:34,823 INFO ipython lines.append('```mermaid')
+2026-04-14 00:26:34,823 INFO ipython lines.append('erDiagram')
+2026-04-14 00:26:34,824 INFO ipython for table_name in sorted(tables):
+    dt = table_to_dt[table_name]
+    e = ent(dt)
+    lines.append('  ' + e + ' {')
+    for c in tables[table_name]:
+        dtype = c['data_type']
+        cname = c['column_name']
+        tag = ' PK' if c['column_key'] == 'PRI' else ''
+        lines.append('    ' + dtype + ' ' + cname + tag)
+    lines.append('  }')
+2026-04-14 00:26:34,824 INFO ipython seen = set()
+2026-04-14 00:26:34,824 INFO ipython for src, dst, fieldname, rtype in sorted(relations, key=lambda x: (x[0], x[1], x[2])):
+    s = ent(src)
+    d = ent(dst)
+    if rtype == 'table':
+        rel = '  ' + s + ' ||--o{ ' + d + ' : "' + fieldname + '"'
+    else:
+        rel = '  ' + s + ' }o--|| ' + d + ' : "' + fieldname + '"'
+    if rel not in seen:
+        seen.add(rel)
+        lines.append(rel)
+2026-04-14 00:26:34,824 INFO ipython lines.append('```')
+2026-04-14 00:26:34,824 INFO ipython lines.append('')
+2026-04-14 00:26:34,824 INFO ipython lines.append('## Notes')
+2026-04-14 00:26:34,824 INFO ipython lines.append('')
+2026-04-14 00:26:34,824 INFO ipython lines.append('- Frappe does not enforce most foreign keys at SQL level, so links are inferred from DocField metadata.')
+2026-04-14 00:26:34,824 INFO ipython lines.append('- Some related doctypes outside CRM/FCRM (for example `User`, `Contact`) appear as relationship endpoints.')
+2026-04-14 00:26:34,825 INFO ipython out.write_text('\n'.join(lines), encoding='utf-8')
+2026-04-14 00:26:34,825 INFO ipython print('WROTE', str(out), 'LINES', len(lines))
+2026-04-14 00:26:34,825 INFO ipython === session end ===
+2026-04-14 20:56:51,880 INFO ipython === bench console session ===
+2026-04-14 20:56:51,881 INFO ipython import frappe
+2026-04-14 20:56:51,882 INFO ipython from crm.api import research_lab
+2026-04-14 20:56:51,882 INFO ipython r = research_lab.recommend_next_best_action(intent_score=72, response_delay_hours=10)
+2026-04-14 20:56:51,882 INFO ipython print('RUN', r.get('run_name'), 'ACTION', r.get('recommended_action'))
+2026-04-14 20:56:51,882 INFO ipython research_lab.log_next_best_action_outcome(run_name=r.get('run_name'), is_success=1, observed_outcome='manual test', conversion_delta_percent=3.2, response_time_hours=10)
+2026-04-14 20:56:51,882 INFO ipython report = research_lab.get_ab_report(period_days=30)
+2026-04-14 20:56:51,882 INFO ipython print('AB_ROWS', len(report.get('rows', [])))
+2026-04-14 20:56:51,882 INFO ipython === session end ===

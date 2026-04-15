@@ -1,47 +1,50 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Leads" />
-    </template>
-    <template #right-header>
-      <CustomActions
-        v-if="leadsListView?.customListActions"
-        :actions="leadsListView.customListActions"
-      />
-      <Button
-        variant="solid"
-        :label="__('Create')"
-        iconLeft="plus"
-        @click="showLeadModal = true"
-      />
-    </template>
-  </LayoutHeader>
-  <ViewControls
-    ref="viewControls"
-    v-model="leads"
-    v-model:loadMore="loadMore"
-    v-model:resizeColumn="triggerResize"
-    v-model:updatedPageCount="updatedPageCount"
-    doctype="CRM Lead"
-    :filters="{ converted: 0 }"
-    :options="{
-      allowedViews: ['list', 'group_by', 'kanban'],
-    }"
-  />
-  <KanbanView
-    v-if="route.params.viewType == 'kanban'"
-    v-model="leads"
-    :options="{
-      getRoute: (row) => ({
-        name: 'Lead',
-        params: { leadId: row.name },
-        query: { view: route.query.view, viewType: route.params.viewType },
-      }),
-      onNewClick: (column) => onNewClick(column),
-    }"
-    @update="(data) => viewControls.updateKanbanSettings(data)"
-    @loadMore="(columnName) => viewControls.loadMoreKanban(columnName)"
-  >
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs v-model="viewControls" routeName="Leads" />
+      </template>
+      <template #right-header>
+        <CustomActions
+          v-if="leadsListView?.customListActions"
+          :actions="leadsListView.customListActions"
+        />
+        <Button
+          variant="solid"
+          :label="__('Create')"
+          iconLeft="plus"
+          @click="showLeadModal = true"
+        />
+      </template>
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
+      ref="viewControls"
+      v-model="leads"
+      v-model:loadMore="loadMore"
+      v-model:resizeColumn="triggerResize"
+      v-model:updatedPageCount="updatedPageCount"
+      doctype="CRM Lead"
+      :filters="{ converted: 0 }"
+      :options="{
+        allowedViews: ['list', 'group_by', 'kanban'],
+      }"
+    />
+    <KanbanView
+      class="entity-body mt-3 rounded-2xl"
+      v-if="route.params.viewType == 'kanban'"
+      v-model="leads"
+      :options="{
+        getRoute: (row) => ({
+          name: 'Lead',
+          params: { leadId: row.name },
+          query: { view: route.query.view, viewType: route.params.viewType },
+        }),
+        onNewClick: (column) => onNewClick(column),
+      }"
+      @update="(data) => viewControls.updateKanbanSettings(data)"
+      @loadMore="(columnName) => viewControls.loadMoreKanban(columnName)"
+    >
     <template #title="{ titleField, itemName }">
       <div class="flex items-center gap-2">
         <div v-if="titleField === 'status'">
@@ -228,35 +231,38 @@
         </Dropdown>
       </div>
     </template>
-  </KanbanView>
-  <LeadsListView
-    ref="leadsListView"
-    v-else-if="leads.data && rows.length"
-    v-model="leads.data.page_length_count"
-    v-model:list="leads"
-    :rows="rows"
-    :columns="columns"
-    :options="{
-      showTooltip: false,
-      resizeColumn: true,
-      rowCount: leads.data.row_count,
-      totalCount: leads.data.total_count,
-    }"
-    @loadMore="() => loadMore++"
-    @columnWidthUpdated="() => triggerResize++"
-    @updatePageCount="(count) => (updatedPageCount = count)"
-    @applyFilter="(data) => viewControls.applyFilter(data)"
-    @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
-    @likeDoc="(data) => viewControls.likeDoc(data)"
-    @selectionsChanged="
-      (selections) => viewControls.updateSelections(selections)
-    "
-  />
-  <EmptyState
-    v-else-if="leads.data && !rows.length"
-    name="leads"
-    :icon="LeadsIcon"
-  />
+    </KanbanView>
+    <LeadsListView
+      class="entity-body mt-3 rounded-2xl"
+      ref="leadsListView"
+      v-else-if="leads.data && rows.length"
+      v-model="leads.data.page_length_count"
+      v-model:list="leads"
+      :rows="rows"
+      :columns="columns"
+      :options="{
+        showTooltip: false,
+        resizeColumn: true,
+        rowCount: leads.data.row_count,
+        totalCount: leads.data.total_count,
+      }"
+      @loadMore="() => loadMore++"
+      @columnWidthUpdated="() => triggerResize++"
+      @updatePageCount="(count) => (updatedPageCount = count)"
+      @applyFilter="(data) => viewControls.applyFilter(data)"
+      @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
+      @likeDoc="(data) => viewControls.likeDoc(data)"
+      @selectionsChanged="
+        (selections) => viewControls.updateSelections(selections)
+      "
+    />
+    <EmptyState
+      v-else-if="leads.data && !rows.length"
+      class="entity-body mt-3 rounded-2xl"
+      name="leads"
+      :icon="LeadsIcon"
+    />
+  </div>
   <LeadModal
     v-if="showLeadModal"
     v-model="showLeadModal"
@@ -585,3 +591,23 @@ function showTask(name) {
   showTaskModal.value = true
 }
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(18, 20, 34, 0.7);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(124, 108, 248, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.entity-controls {
+  border-color: var(--crm-border-strong);
+}
+</style>

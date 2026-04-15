@@ -51,7 +51,7 @@
       >
         <LoadingIndicator class="w-4" />
       </div>
-      <div v-if="!getSlaResource.loading">
+      <div v-if="!getSlaResource.loading" class="sla-policy-view-body">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div>
             <FormControl
@@ -531,3 +531,13 @@ onUnmounted(() => {
   disableSettingModalOutsideClick.value = false
 })
 </script>
+
+<style scoped>
+.sla-policy-view-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 0.95rem;
+  padding: 0.85rem;
+  background: color-mix(in oklab, var(--surface-0) 92%, white);
+  box-shadow: var(--shadow-soft);
+}
+</style>

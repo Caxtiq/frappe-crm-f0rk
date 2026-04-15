@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-6 text-ink-gray-8">
+  <div class="assignment-rules-page flex h-full flex-col gap-6 p-6 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 pt-2">
+    <div class="assignment-rules-head flex justify-between px-2 pt-2">
       <div class="flex flex-col gap-1 w-9/12">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Assignment rules') }}
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Assignment rules list -->
-    <div class="flex h-full overflow-y-auto">
+    <div class="assignment-rules-body flex h-full overflow-y-auto">
       <AssignmentRulesList />
     </div>
   </div>
@@ -50,3 +50,21 @@ const goToNew = () => {
   updateStep('view', null)
 }
 </script>
+
+<style scoped>
+.assignment-rules-head,
+.assignment-rules-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.assignment-rules-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.assignment-rules-body {
+  padding: 0.65rem;
+}
+</style>

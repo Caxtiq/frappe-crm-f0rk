@@ -12,10 +12,7 @@ export const useAIStore = defineStore('ai', () => {
 
   // Load AI settings
   const settingsResource = createResource({
-    url: 'frappe.client.get_single',
-    params: {
-      doctype: 'CRM AI Settings',
-    },
+    url: 'crm.api.ai_settings.get_ai_settings',
     auto: true,
     onSuccess(data) {
       settings.value = data

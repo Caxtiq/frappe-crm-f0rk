@@ -1,0 +1,328 @@
+2026-02-16 01:48:00,901 ERROR scheduler Exception in Enqueue Events for Site crm.localhost
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 1539, in get_connection
+    if connection.can_read() and self.cache is None:
+       ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 628, in can_read
+    return self._parser.can_read(timeout)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/_parsers/hiredis.py", line 99, in can_read
+    return self.read_from_socket(timeout=timeout, raise_on_timeout=False)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/_parsers/hiredis.py", line 110, in read_from_socket
+    raise ConnectionError(SERVER_CLOSED_CONNECTION_ERROR)
+redis.exceptions.ConnectionError: Connection closed by server.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 389, in connect_check_health
+    sock = self.retry.call_with_retry(
+        lambda: self._connect(), lambda error: self.disconnect(error)
+    )
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/retry.py", line 105, in call_with_retry
+    return do()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 390, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 803, in _connect
+    raise err
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 787, in _connect
+    sock.connect(socket_address)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 120, in enqueue_events_for_site
+    enqueue_events()
+    ~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 140, in enqueue_events
+    if job_type.enqueue():
+       ~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 74, in enqueue
+    if not self.is_job_in_queue():
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 96, in is_job_in_queue
+    return is_job_enqueued(self.rq_job_id)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 671, in is_job_enqueued
+    return get_job_status(job_id) in (JobStatus.QUEUED, JobStatus.STARTED)
+           ~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 676, in get_job_status
+    if job := get_job(job_id):
+              ~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 682, in get_job
+    return Job.fetch(create_job_id(job_id), connection=get_redis_conn())
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 654, in fetch
+    job.refresh()
+    ~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 1011, in refresh
+    data = self.connection.hgetall(self.key)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/commands/core.py", line 5021, in hgetall
+    return self.execute_command("HGETALL", name, keys=[name])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 621, in execute_command
+    return self._execute_command(*args, **options)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 627, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/utils.py", line 195, in wrapper
+    return func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 1543, in get_connection
+    connection.connect()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 380, in connect
+    self.connect_check_health(check_health=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 397, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:11000. Connection refused.
+2026-02-16 01:52:01,397 ERROR scheduler Exception in Enqueue Events for Site crm.localhost
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 389, in connect_check_health
+    sock = self.retry.call_with_retry(
+        lambda: self._connect(), lambda error: self.disconnect(error)
+    )
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/retry.py", line 105, in call_with_retry
+    return do()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 390, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 803, in _connect
+    raise err
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 787, in _connect
+    sock.connect(socket_address)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 120, in enqueue_events_for_site
+    enqueue_events()
+    ~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 140, in enqueue_events
+    if job_type.enqueue():
+       ~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 74, in enqueue
+    if not self.is_job_in_queue():
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 96, in is_job_in_queue
+    return is_job_enqueued(self.rq_job_id)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 671, in is_job_enqueued
+    return get_job_status(job_id) in (JobStatus.QUEUED, JobStatus.STARTED)
+           ~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 676, in get_job_status
+    if job := get_job(job_id):
+              ~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 682, in get_job
+    return Job.fetch(create_job_id(job_id), connection=get_redis_conn())
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 654, in fetch
+    job.refresh()
+    ~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 1011, in refresh
+    data = self.connection.hgetall(self.key)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/commands/core.py", line 5021, in hgetall
+    return self.execute_command("HGETALL", name, keys=[name])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 621, in execute_command
+    return self._execute_command(*args, **options)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 627, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/utils.py", line 195, in wrapper
+    return func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 1533, in get_connection
+    connection.connect()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 380, in connect
+    self.connect_check_health(check_health=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 397, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:11000. Connection refused.
+2026-02-16 01:56:04,530 ERROR scheduler Exception in Enqueue Events for Site crm.localhost
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 389, in connect_check_health
+    sock = self.retry.call_with_retry(
+        lambda: self._connect(), lambda error: self.disconnect(error)
+    )
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/retry.py", line 105, in call_with_retry
+    return do()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 390, in <lambda>
+    lambda: self._connect(), lambda error: self.disconnect(error)
+            ~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 803, in _connect
+    raise err
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 787, in _connect
+    sock.connect(socket_address)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+ConnectionRefusedError: [Errno 111] Connection refused
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 120, in enqueue_events_for_site
+    enqueue_events()
+    ~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 140, in enqueue_events
+    if job_type.enqueue():
+       ~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 74, in enqueue
+    if not self.is_job_in_queue():
+           ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/scheduled_job_type/scheduled_job_type.py", line 96, in is_job_in_queue
+    return is_job_enqueued(self.rq_job_id)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 671, in is_job_enqueued
+    return get_job_status(job_id) in (JobStatus.QUEUED, JobStatus.STARTED)
+           ~~~~~~~~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 676, in get_job_status
+    if job := get_job(job_id):
+              ~~~~~~~^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/background_jobs.py", line 682, in get_job
+    return Job.fetch(create_job_id(job_id), connection=get_redis_conn())
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 654, in fetch
+    job.refresh()
+    ~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/rq/job.py", line 1011, in refresh
+    data = self.connection.hgetall(self.key)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/commands/core.py", line 5021, in hgetall
+    return self.execute_command("HGETALL", name, keys=[name])
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 621, in execute_command
+    return self._execute_command(*args, **options)
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/client.py", line 627, in _execute_command
+    conn = self.connection or pool.get_connection()
+                              ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/utils.py", line 195, in wrapper
+    return func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 1533, in get_connection
+    connection.connect()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 380, in connect
+    self.connect_check_health(check_health=True)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/redis/connection.py", line 397, in connect_check_health
+    raise ConnectionError(self._error_message(e))
+redis.exceptions.ConnectionError: Error 111 connecting to 127.0.0.1:11000. Connection refused.
+2026-04-13 12:24:00,927 ERROR scheduler Exception in Enqueue Events for Site crm.localhost
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 65, in wrapper
+    return _cache[func][args_key]
+           ~~~~~~~~~~~~^^^^^^^^^^
+KeyError: ((), <object object at 0x76d69dd80e90>, frozenset({('_ensure_on_bench', True)}))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 117, in enqueue_events_for_site
+    if is_scheduler_inactive():
+       ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 161, in is_scheduler_inactive
+    if is_scheduler_disabled(verbose=verbose):
+       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/scheduler.py", line 173, in is_scheduler_disabled
+    scheduler_disabled = not frappe.get_system_settings("enable_scheduler")
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/core/doctype/system_settings/system_settings.py", line 250, in get_system_settings
+    system_settings = frappe.client_cache.get_doc("System Settings")
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 566, in get_doc
+    return self.get_value(key, generator=lambda: frappe.get_doc(doctype, name))
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 529, in get_value
+    val = generator()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/redis_wrapper.py", line 566, in <lambda>
+    return self.get_value(key, generator=lambda: frappe.get_doc(doctype, name))
+                                                 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/model/utils/__init__.py", line 218, in wrapper
+    return dispatch(args[0])(*args, **kw)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/model/document.py", line 124, in get_doc_str
+    if controller := get_controller(doctype):
+                     ~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/model/base_document.py", line 92, in get_controller
+    site_controllers[doctype] = import_controller(doctype)
+                                ~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/model/base_document.py", line 103, in import_controller
+    doctype_info = frappe.db.get_value("DocType", doctype, ("module", "custom", "is_tree"), as_dict=True)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 561, in get_value
+    result = self.get_values(
+    	doctype,
+    ...<13 lines>...
+    	wait=wait,
+    )
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 661, in get_values
+    query = frappe.qb.get_query(
+    	table=doctype,
+    ...<7 lines>...
+    	limit=limit,
+    )
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 65, in get_query
+    return Engine().get_query(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/query.py", line 292, in get_query
+    self.apply_filters(filters)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/query.py", line 377, in apply_filters
+    self.apply_dict_filters(filters, collect=collect)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/query.py", line 516, in apply_dict_filters
+    self._apply_filter(field, value, operator, collect=collect)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/query.py", line 527, in _apply_filter
+    criterion = self._build_criterion_for_simple_filter(field, value, operator, doctype)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/query.py", line 545, in _build_criterion_for_simple_filter
+    additional_filters_config = get_additional_filters_from_hooks()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/boot.py", line 425, in get_additional_filters_from_hooks
+    filter_hooks = frappe.get_hooks("filters_config")
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 983, in get_hooks
+    hooks = _site_cached_load_app_hooks()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 157, in site_cache_wrapper
+    result = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 945, in _load_app_hooks
+    apps = [app_name] if app_name else get_installed_apps(_ensure_on_bench=True)
+                                       ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/utils/caching.py", line 71, in wrapper
+    return_val = func(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/__init__.py", line 915, in get_installed_apps
+    installed = orjson.loads(db.get_global("installed_apps") or "[]")
+                             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1136, in get_global
+    return self.get_default(key, user)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1140, in get_default
+    d = self.get_defaults(key, parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 1156, in get_defaults
+    defaults = frappe.defaults.get_defaults_for(parent)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/defaults.py", line 249, in get_defaults_for
+    .run(as_dict=True)
+     ~~~^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/query_builder/utils.py", line 131, in execute_query
+    result = frappe.local.db.sql(query, params, *args, **kwargs)  # nosemgrep
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 249, in sql
+    self.connect()
+    ~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/database.py", line 147, in connect
+    self.get_connection()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 109, in get_connection
+    conn = self._get_connection()
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 114, in _get_connection
+    return self.create_connection()
+           ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/apps/frappe/frappe/database/mariadb/mysqlclient.py", line 117, in create_connection
+    return MySQLdb.connect(**self.get_connection_settings())
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/__init__.py", line 121, in Connect
+    return Connection(*args, **kwargs)
+  File "/home/emlad/Developer/frappe-crm-f0rk/frappe-bench/env/lib/python3.14/site-packages/MySQLdb/connections.py", line 200, in __init__
+    super().__init__(*args, **kwargs2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+MySQLdb.OperationalError: (2002, "Can't connect to server on '127.0.0.1' (115)")

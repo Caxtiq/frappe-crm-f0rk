@@ -19,6 +19,11 @@ const routes = [
     component: () => import('@/pages/Dashboard.vue'),
   },
   {
+    path: '/research-lab',
+    name: 'Research Lab',
+    component: () => import('@/pages/ResearchLab.vue'),
+  },
+  {
     alias: '/leads',
     path: '/leads/view/:viewType?',
     name: 'Leads',
@@ -123,8 +128,15 @@ const routes = [
   },
 ]
 
+const isDesktopForced = () => {
+  const params = new URLSearchParams(window.location.search)
+  return params.get('desktop') === '1' || localStorage.getItem('crm_force_desktop') === '1'
+}
+
 const handleMobileView = (componentName) => {
-  return window.innerWidth < 768 ? `Mobile${componentName}` : componentName
+  return !isDesktopForced() && window.innerWidth < 768
+    ? `Mobile${componentName}`
+    : componentName
 }
 
 let router = createRouter({
@@ -175,7 +187,7 @@ router.beforeEach(async (to, from, next) => {
   } else if (['Deal', 'Lead'].includes(to.name) && !to.hash) {
     let storageKey = to.name === 'Deal' ? 'lastDealTab' : 'lastLeadTab'
     const activeTab = localStorage.getItem(storageKey) || 'activity'
-    const hash = '#' + activeTab
+    const hash = '#tab-' + activeTab
     next({ ...to, hash })
   } else {
     next()

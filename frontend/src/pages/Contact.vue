@@ -14,11 +14,11 @@
       />
     </template>
   </LayoutHeader>
-  <div v-if="contact.doc" ref="parentRef" class="flex h-full">
+  <div v-if="contact.doc" ref="parentRef" class="contact-page flex h-full">
     <Resizer
       v-if="contact.doc"
       :parent="$refs.parentRef"
-      class="flex h-full flex-col overflow-hidden border-r"
+      class="contact-side flex h-full flex-col overflow-hidden border-r"
     >
       <div class="border-b">
         <FileUploader
@@ -131,7 +131,7 @@
       as="div"
       v-model="tabIndex"
       :tabs="tabs"
-      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="contact-tabs flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-item="{ tab, selected }">
         <button
@@ -583,3 +583,28 @@ watch(
   { once: true },
 )
 </script>
+
+<style scoped>
+.contact-page {
+  gap: 0.9rem;
+  padding: 0.9rem;
+}
+
+.contact-side {
+  border-radius: 1.2rem;
+  border-color: color-mix(in oklab, var(--outline) 64%, white);
+  background: linear-gradient(180deg, var(--surface-0), color-mix(in oklab, var(--surface-0) 88%, var(--surface-2)));
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-tabs {
+  border: 1px solid color-mix(in oklab, var(--outline) 64%, white);
+  border-radius: 1.2rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-tabs :deep([role='tablist']) {
+  border-bottom: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+}
+</style>

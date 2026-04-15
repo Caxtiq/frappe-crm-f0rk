@@ -1,6 +1,6 @@
 <template>
   <ListView
-    :class="$attrs.class"
+    :class="['list-view-shell', $attrs.class]"
     :columns="columns"
     :rows="rows"
     :options="{
@@ -137,7 +137,7 @@
   </ListView>
   <ListFooter
     v-if="pageLengthCount"
-    class="border-t px-3 py-2 sm:px-5"
+    class="list-footer border-t px-3 py-2 sm:px-5"
     v-model="pageLengthCount"
     :options="{
       rowCount: options.rowCount,
@@ -236,3 +236,16 @@ defineExpose({
   ),
 })
 </script>
+
+<style scoped>
+.list-view-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.list-footer {
+  border-top-color: color-mix(in oklab, var(--outline) 70%, white);
+}
+</style>

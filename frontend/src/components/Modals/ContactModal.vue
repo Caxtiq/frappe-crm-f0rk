@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model="show" :options="{ size: 'xl' }">
     <template #body>
-      <div class="bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
+      <div class="contact-modal-body bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-2xl font-semibold leading-6 text-ink-gray-9">
@@ -33,7 +33,7 @@
         />
         <ErrorMessage class="mt-8" v-if="error" :message="__(error)" />
       </div>
-      <div class="px-4 pb-7 pt-4 sm:px-6">
+      <div class="contact-modal-footer px-4 pb-7 pt-4 sm:px-6">
         <div class="space-y-2">
           <Button
             class="w-full"
@@ -197,5 +197,19 @@ function openAddressModal(_address) {
 <style scoped>
 :deep(:has(> .dropdown-button)) {
   width: 100%;
+}
+
+.contact-modal-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.contact-modal-footer {
+  margin-top: 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
 }
 </style>

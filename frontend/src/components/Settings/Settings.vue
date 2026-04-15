@@ -6,9 +6,9 @@
     :disableOutsideClickToClose="disableSettingModalOutsideClick"
   >
     <template #body>
-      <div class="flex h-[calc(100vh_-_8rem)]">
+      <div class="settings-shell flex h-[calc(100vh_-_8rem)]">
         <div
-          class="flex flex-col p-1 w-52 shrink-0 bg-surface-menu-bar overflow-y-auto"
+          class="settings-nav flex w-52 shrink-0 flex-col overflow-y-auto p-1 bg-surface-menu-bar"
         >
           <template v-for="(tab, i) in tabs" :key="tab.label">
             <div
@@ -37,7 +37,7 @@
             </nav>
           </template>
         </div>
-        <div class="flex flex-col flex-1 overflow-y-auto bg-surface-modal">
+        <div class="settings-content flex flex-1 flex-col overflow-y-auto bg-surface-modal">
           <component :is="activeTab.component" v-if="activeTab" />
         </div>
       </div>
@@ -47,6 +47,7 @@
 <script setup>
 import CircleDollarSignIcon from '~icons/lucide/circle-dollar-sign'
 import TrendingUpDownIcon from '~icons/lucide/trending-up-down'
+import BotIcon from '~icons/lucide/bot'
 import SparkleIcon from '@/components/Icons/SparkleIcon.vue'
 import CalendarIcon from '@/components/Icons/CalendarIcon.vue'
 import WhatsAppIcon from '@/components/Icons/WhatsAppIcon.vue'
@@ -59,6 +60,7 @@ import SettingsIcon2 from '@/components/Icons/SettingsIcon2.vue'
 import Users from '@/components/Settings/Users.vue'
 import InviteUserPage from '@/components/Settings/InviteUserPage.vue'
 import ProfileSettings from '@/components/Settings/ProfileSettings.vue'
+import AISettings from '@/components/Settings/AISettings.vue'
 import WhatsAppSettings from '@/components/Settings/WhatsAppSettings.vue'
 import ERPNextSettings from '@/components/Settings/ERPNextSettings.vue'
 import HelpdeskSettings from '@/components/Settings/HelpdeskSettings.vue'
@@ -109,6 +111,11 @@ const tabs = computed(() => {
     {
       label: __('System configuration'),
       items: [
+        {
+          label: __('AI Settings'),
+          component: markRaw(AISettings),
+          icon: BotIcon,
+        },
         {
           label: __('Forecasting'),
           component: markRaw(ForecastingSettings),
@@ -256,3 +263,21 @@ function setActiveTab(tabName) {
 
 watch(activeSettingsPage, (activePage) => setActiveTab(activePage))
 </script>
+
+<style scoped>
+.settings-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1.05rem;
+  overflow: hidden;
+  background: linear-gradient(135deg, color-mix(in oklab, var(--surface-0) 88%, white), var(--surface-1));
+}
+
+.settings-nav {
+  border-right: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-1) 92%, white), var(--surface-1));
+}
+
+.settings-content {
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+}
+</style>

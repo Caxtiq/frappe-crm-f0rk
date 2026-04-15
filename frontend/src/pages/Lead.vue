@@ -17,6 +17,28 @@
         :actions="document.actions"
       />
       <AssignTo v-model="assignees.data" doctype="CRM Lead" :docname="leadId" />
+      <Button
+        variant="outline"
+        label="AI Assistant"
+        @click="showAIChat = true"
+      >
+        <template #prefix>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </template>
+      </Button>
+      <Button
+        variant="outline"
+        label="AI Suggestions"
+        @click="showAISuggestions = true"
+      >
+        <template #prefix>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </template>
+      </Button>
       <Dropdown
         v-if="doc && document.statuses"
         :options="statuses"
@@ -41,11 +63,11 @@
       />
     </template>
   </LayoutHeader>
-  <div v-if="doc.name" class="flex h-full overflow-hidden">
+  <div v-if="doc.name" class="record-shell flex h-full overflow-hidden px-3 pb-3 sm:px-5 sm:pb-5">
     <Tabs
       v-model="tabIndex"
       :tabs="tabs"
-      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="record-tabs mr-3 flex flex-1 overflow-hidden rounded-2xl border border-[var(--crm-border)] shadow-[0_14px_32px_rgba(0,0,0,0.25)] flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel>
         <Activities
@@ -60,9 +82,9 @@
         />
       </template>
     </Tabs>
-    <Resizer class="flex flex-col justify-between border-l" side="right">
+    <Resizer class="record-sidepanel crm-panel flex flex-col justify-between overflow-hidden rounded-2xl" side="right">
       <div
-        class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg font-medium text-ink-gray-9"
+        class="flex h-[45px] cursor-copy items-center border-b border-[var(--crm-border)] px-5 py-2.5 text-lg font-medium text-[var(--crm-text)] bg-black/20"
         @click="copyToClipboard(leadId)"
       >
         {{ __(leadId) }}
@@ -176,6 +198,15 @@
         v-model="doc"
         @updateField="updateField"
       />
+      <div v-if="aiStore.aiEnabled" class="border-b px-5 py-3">
+        <LeadScoreBadge
+          :score="doc.ai_score"
+          :loading="scoringLead"
+          :showScoreButton="!doc.ai_score"
+          @score-lead="handleScoreLead"
+          @show-breakdown="showScoreBreakdown = true"
+        />
+      </div>
       <div
         v-if="sections.data"
         class="flex flex-1 flex-col justify-between overflow-hidden"
@@ -218,6 +249,43 @@
     :docname="leadId"
     name="Leads"
   />
+  <Dialog
+    v-if="showAIChat"
+    v-model="showAIChat"
+    :options="{
+      title: 'AI Assistant',
+      size: 'xl',
+    }"
+  >
+    <template #body-content>
+      <AIChat
+        :referenceDoctype="'CRM Lead'"
+        :referenceName="leadId"
+        @close="showAIChat = false"
+      />
+    </template>
+  </Dialog>
+  <Dialog
+    v-if="showAISuggestions"
+    v-model="showAISuggestions"
+    :options="{
+      title: 'AI Suggestions',
+      size: 'xl',
+    }"
+  >
+    <template #body-content>
+      <AISuggestions
+        :referenceDoctype="'CRM Lead'"
+        :referenceName="leadId"
+      />
+    </template>
+  </Dialog>
+  <ScoreBreakdownModal
+    v-if="showScoreBreakdown"
+    v-model="showScoreBreakdown"
+    :scoreData="scoreData"
+    :loading="loadingScoreData"
+  />
 </template>
 <script setup>
 import DeleteLinkedDocModal from '@/components/DeleteLinkedDocModal.vue'
@@ -246,6 +314,10 @@ import SidePanelLayout from '@/components/SidePanelLayout.vue'
 import SLASection from '@/components/SLASection.vue'
 import CustomActions from '@/components/CustomActions.vue'
 import ConvertToDealModal from '@/components/Modals/ConvertToDealModal.vue'
+import AIChat from '@/components/AI/AIChat.vue'
+import AISuggestions from '@/components/AI/AISuggestions.vue'
+import LeadScoreBadge from '@/components/AI/LeadScoreBadge.vue'
+import ScoreBreakdownModal from '@/components/AI/ScoreBreakdownModal.vue'
 import {
   openWebsite,
   setupCustomizations,
@@ -259,6 +331,7 @@ import { statusesStore } from '@/stores/statuses'
 import { getMeta } from '@/stores/meta'
 import { useDocument } from '@/data/document'
 import { whatsappEnabled, callEnabled } from '@/composables/settings'
+import { useAIStore } from '@/stores/ai'
 import {
   createResource,
   FileUploader,
@@ -270,6 +343,7 @@ import {
   call,
   usePageMeta,
   toast,
+  Dialog,
 } from 'frappe-ui'
 import { ref, computed, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -279,6 +353,7 @@ const { brand } = getSettings()
 const { $dialog, $socket, makeCall } = globalStore()
 const { statusOptions, getLeadStatus } = statusesStore()
 const { doctypeMeta } = getMeta('CRM Lead')
+const aiStore = useAIStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -297,6 +372,12 @@ const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
 const showConvertToDealModal = ref(false)
 const showFilesUploader = ref(false)
+const showAIChat = ref(false)
+const showAISuggestions = ref(false)
+const scoringLead = ref(false)
+const showScoreBreakdown = ref(false)
+const scoreData = ref(null)
+const loadingScoreData = ref(false)
 
 const { triggerOnChange, assignees, permissions, document, scripts, error } =
   useDocument('CRM Lead', props.leadId)
@@ -499,4 +580,53 @@ function reloadAssignees(data) {
     assignees.reload()
   }
 }
+
+async function handleScoreLead() {
+  scoringLead.value = true
+  try {
+    const result = await aiStore.scoreLead(props.leadId)
+    doc.value.ai_score = result.score
+    await loadScoreBreakdown()
+    toast.success('Lead scored successfully')
+  } catch (error) {
+    console.error('Scoring failed:', error)
+    toast.error('Failed to score lead')
+  } finally {
+    scoringLead.value = false
+  }
+}
+
+async function loadScoreBreakdown() {
+  if (doc.value.ai_score) {
+    loadingScoreData.value = true
+    try {
+      scoreData.value = await aiStore.getScoreBreakdown(props.leadId)
+    } catch (error) {
+      console.error('Failed to load score breakdown:', error)
+    } finally {
+      loadingScoreData.value = false
+    }
+  }
+}
+
+watch(
+  () => doc.value?.ai_score,
+  (newScore) => {
+    if (newScore && !scoreData.value) {
+      loadScoreBreakdown()
+    }
+  },
+  { immediate: true }
+)
 </script>
+
+<style scoped>
+.record-shell {
+  background: linear-gradient(180deg, rgba(124, 108, 248, 0.08), rgba(8, 9, 18, 0.5));
+}
+
+.record-tabs :deep([role='tablist']) {
+  border-bottom: 1px solid var(--crm-border);
+  background: rgba(124, 108, 248, 0.05);
+}
+</style>

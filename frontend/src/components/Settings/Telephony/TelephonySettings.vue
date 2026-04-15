@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 px-6 py-8">
+  <div class="telephony-settings-page flex h-full flex-col gap-6 px-6 py-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 text-ink-gray-8">
+    <div class="telephony-settings-head flex justify-between px-2 text-ink-gray-8">
       <div class="flex flex-col gap-1 w-9/12">
         <h2
           class="flex gap-2 text-xl font-semibold leading-none h-5 text-ink-gray-8"
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <div class="flex-1 flex flex-col overflow-y-auto">
+    <div class="telephony-settings-body flex-1 flex flex-col overflow-y-auto">
       <!-- General -->
       <div class="flex items-center justify-between gap-8 py-3 px-2">
         <div class="flex flex-col">
@@ -175,3 +175,21 @@ function validateIfDefaultMediumIsEnabled() {
   return true
 }
 </script>
+
+<style scoped>
+.telephony-settings-head,
+.telephony-settings-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.telephony-settings-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.telephony-settings-body {
+  padding: 0.65rem;
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-8 text-ink-gray-8">
+  <div class="home-actions-page flex h-full flex-col gap-6 p-8 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between text-ink-gray-8">
+    <div class="home-actions-head flex justify-between text-ink-gray-8">
       <div class="flex flex-col gap-1">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Home actions') }}
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Fields -->
-    <div class="flex flex-1 flex-col overflow-y-auto">
+    <div class="home-actions-body flex flex-1 flex-col overflow-y-auto">
       <Grid
         v-model="document.doc.dropdown_items"
         doctype="CRM Dropdown Item"
@@ -60,3 +60,21 @@ function updateSettings() {
   })
 }
 </script>
+
+<style scoped>
+.home-actions-head,
+.home-actions-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.home-actions-head {
+  padding: 0.85rem 1rem;
+}
+
+.home-actions-body {
+  padding: 0.75rem;
+}
+</style>

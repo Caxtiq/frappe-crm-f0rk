@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col h-full gap-4">
+  <div class="email-edit-page flex flex-col h-full gap-4">
     <!-- title and desc -->
-    <div role="heading" aria-level="1" class="flex justify-between gap-1">
+    <div role="heading" aria-level="1" class="email-edit-head flex justify-between gap-1">
       <h2 class="text-xl font-semibold text-ink-gray-8">
         {{ __('Edit email') }}
       </h2>
     </div>
-    <div class="w-fit">
+    <div class="email-edit-provider w-fit">
       <EmailProviderIcon
         :logo="emailIcon[accountData.service]"
         :label="accountData.service"
@@ -14,7 +14,7 @@
     </div>
     <!-- banner for setting up email account -->
     <div
-      class="flex items-center gap-2 p-2 rounded-md ring-1 ring-outline-gray-3"
+      class="email-edit-banner flex items-center gap-2 p-2 rounded-md ring-1 ring-outline-gray-3"
     >
       <CircleAlert
         class="size-6 text-ink-gray-4 w-min-5 w-max-5 min-h-5 max-w-5"
@@ -28,7 +28,7 @@
       </div>
     </div>
     <!-- fields -->
-    <div class="flex flex-col gap-4">
+    <div class="email-edit-body flex flex-col gap-4">
       <div class="grid grid-cols-1 gap-4">
         <div
           v-for="field in fields"
@@ -62,7 +62,7 @@
       <ErrorMessage v-if="error" class="ml-1" :message="error" />
     </div>
     <!-- action buttons -->
-    <div class="flex justify-between mt-auto">
+    <div class="email-edit-actions flex justify-between mt-auto">
       <Button
         :label="__('Back')"
         theme="gray"
@@ -213,3 +213,27 @@ function errorHandler() {
   error.value = __('Failed to update email account, Invalid credentials')
 }
 </script>
+
+<style scoped>
+.email-edit-head,
+.email-edit-provider,
+.email-edit-banner,
+.email-edit-body,
+.email-edit-actions {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.email-edit-head,
+.email-edit-provider,
+.email-edit-banner,
+.email-edit-actions {
+  padding: 0.75rem;
+}
+
+.email-edit-body {
+  padding: 0.85rem;
+}
+</style>

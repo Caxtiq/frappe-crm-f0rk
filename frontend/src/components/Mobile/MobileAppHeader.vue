@@ -1,17 +1,19 @@
 <template>
-  <div class="flex pr-3">
-    <div class="z-20 ml-2 flex items-center justify-center">
+  <div class="flex items-center gap-2 border-b border-[var(--crm-border)] bg-white/80 px-2 py-1 backdrop-blur">
+    <div class="z-20 flex items-center justify-center">
       <Button
-        class="size-7"
+        class="size-8 rounded-xl border border-[var(--crm-border)] bg-white"
         variant="ghosted"
         @click="sidebarOpened = !sidebarOpened"
       >
-        <MenuIcon class="h-4 text-ink-gray-9" />
+        <MenuIcon class="h-4 text-[var(--crm-text)]" />
       </Button>
     </div>
-    <div id="app-header" class="flex-1" />
+    <div id="app-header" class="min-h-[44px] flex-1" />
+    <div class="crm-panel rounded-xl px-1 py-0.5">
+      <CallUI />
+    </div>
   </div>
-  <CallUI class="mr-3 mt-2" />
 </template>
 
 <script setup>

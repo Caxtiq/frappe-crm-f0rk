@@ -1,9 +1,13 @@
 <template>
-  <div class="flex h-screen w-screen">
+  <div class="flex h-screen w-screen p-2">
     <MobileSidebar />
-    <div class="flex h-full flex-1 flex-col overflow-auto bg-surface-white">
+    <div
+      class="crm-glass flex h-full flex-1 flex-col overflow-hidden rounded-2xl"
+    >
       <MobileAppHeader />
-      <slot />
+      <section class="flex-1 overflow-auto rounded-b-2xl bg-white/70">
+        <slot />
+      </section>
     </div>
     <GlobalModals />
   </div>

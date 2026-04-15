@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 px-6 py-8 text-ink-gray-8">
+  <div class="calendar-settings-page flex h-full flex-col gap-6 px-6 py-8 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 text-ink-gray-8">
+    <div class="calendar-settings-head flex justify-between px-2 text-ink-gray-8">
       <div class="flex flex-col gap-1">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Calendar settings') }}
@@ -26,7 +26,7 @@
     </div>
 
     <!-- Fields -->
-    <div class="flex flex-1 flex-col overflow-y-auto">
+    <div class="calendar-settings-body flex flex-1 flex-col overflow-y-auto">
       <div class="flex items-center justify-between gap-8 py-3 px-2">
         <div class="flex flex-col">
           <div class="text-p-base font-medium text-ink-gray-7 truncate">
@@ -281,3 +281,21 @@ function updateSettings() {
   })
 }
 </script>
+
+<style scoped>
+.calendar-settings-head,
+.calendar-settings-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.calendar-settings-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.calendar-settings-body {
+  padding: 0.65rem;
+}
+</style>

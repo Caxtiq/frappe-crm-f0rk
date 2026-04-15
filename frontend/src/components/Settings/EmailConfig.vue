@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 p-8">
+  <div class="email-config-shell flex-1 p-8">
     <div v-if="step === 'email-add'" class="h-full">
       <EmailAdd @update:step="updateStep" />
     </div>
@@ -25,3 +25,13 @@ function updateStep(newStep, data) {
   accountData.value = data;
 }
 </script>
+
+<style scoped>
+.email-config-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  margin: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

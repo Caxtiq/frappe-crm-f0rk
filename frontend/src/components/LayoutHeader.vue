@@ -1,11 +1,13 @@
 <template>
   <Teleport to="#app-header" v-if="showHeader">
     <slot>
-      <header class="flex h-10.5 items-center justify-between py-[7px] sm:pl-5 pl-2">
-        <div class="flex items-center gap-2">
+      <header
+        class="crm-fade-up flex min-h-[54px] items-center justify-between px-3 py-2 sm:px-5"
+      >
+        <div class="flex items-center gap-2.5">
           <slot name="left-header" />
         </div>
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2.5">
           <slot name="right-header" class="flex items-center gap-2" />
         </div>
       </header>

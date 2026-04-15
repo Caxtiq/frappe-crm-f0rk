@@ -1,36 +1,38 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Notes" />
-    </template>
-    <template #right-header>
-      <Button
-        variant="solid"
-        :label="__('Create')"
-        iconLeft="plus"
-        @click="createNote"
-      />
-    </template>
-  </LayoutHeader>
-  <ViewControls
-    ref="viewControls"
-    v-model="notes"
-    v-model:loadMore="loadMore"
-    v-model:updatedPageCount="updatedPageCount"
-    doctype="FCRM Note"
-    :options="{
-      hideColumnsButton: true,
-      defaultViewName: __('Notes view'),
-    }"
-  />
-  <div class="flex-1 overflow-y-auto">
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs v-model="viewControls" routeName="Notes" />
+      </template>
+      <template #right-header>
+        <Button
+          variant="solid"
+          :label="__('Create')"
+          iconLeft="plus"
+          @click="createNote"
+        />
+      </template>
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
+      ref="viewControls"
+      v-model="notes"
+      v-model:loadMore="loadMore"
+      v-model:updatedPageCount="updatedPageCount"
+      doctype="FCRM Note"
+      :options="{
+        hideColumnsButton: true,
+        defaultViewName: __('Notes view'),
+      }"
+    />
+    <div class="entity-body mt-3 flex-1 overflow-y-auto rounded-2xl">
     <div
       v-if="notes.data?.data?.length"
       class="grid grid-cols-1 gap-2 px-3 pb-2 sm:grid-cols-4 sm:gap-4 sm:px-5 sm:pb-3"
     >
       <div
         v-for="note in notes.data.data"
-        class="group flex h-56 cursor-pointer flex-col justify-between gap-2 rounded-lg border px-5 py-4 shadow-sm hover:bg-surface-menu-bar"
+        class="group flex h-56 cursor-pointer flex-col justify-between gap-2 rounded-xl border border-[var(--crm-border)] bg-white/85 px-5 py-4 shadow-sm transition hover:-translate-y-0.5 hover:bg-white"
         @click="editNote(note)"
       >
         <div class="flex items-center justify-between">
@@ -75,6 +77,7 @@
           </Tooltip>
         </div>
       </div>
+    </div>
     </div>
   </div>
   <ListFooter
@@ -164,3 +167,16 @@ const openNoteFromURL = () => {
   }
 }
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 14px 30px rgba(18, 65, 41, 0.1);
+}
+</style>

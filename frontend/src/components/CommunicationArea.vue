@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between gap-3 border-t px-4 py-2.5 sm:px-10">
+  <div class="composer-actions flex justify-between gap-3 border-t px-4 py-2.5 sm:px-10">
     <div class="flex gap-1.5">
       <Button
         ref="sendEmailRef"
@@ -40,6 +40,7 @@
     </div>
   </div>
   <div
+    class="composer-email"
     v-show="showEmailBox"
     @keydown.ctrl.enter.capture.stop="submitEmail"
     @keydown.meta.enter.capture.stop="submitEmail"
@@ -75,7 +76,7 @@
       "
     />
   </div>
-  <div v-show="showCommentBox">
+  <div v-show="showCommentBox" class="composer-comment">
     <CommentBox
       ref="newCommentEditor"
       v-model:content="newComment"
@@ -118,7 +119,7 @@ import CommentIcon from '@/components/Icons/CommentIcon.vue'
 import Email2Icon from '@/components/Icons/Email2Icon.vue'
 import { capture } from '@/telemetry'
 import { usersStore } from '@/stores/users'
-import { aiStore } from '@/stores/ai'
+import { useAIStore } from '@/stores/ai'
 import { useStorage } from '@vueuse/core'
 import { call, createResource } from 'frappe-ui'
 import { useOnboarding } from 'frappe-ui/frappe'
@@ -137,6 +138,7 @@ const reload = defineModel('reload')
 const emit = defineEmits(['scroll'])
 
 const { getUser } = usersStore()
+const aiStore = useAIStore()
 const { updateOnboardingStep } = useOnboarding('frappecrm')
 
 const showEmailBox = ref(false)
@@ -337,3 +339,16 @@ defineExpose({
   editor: newEmailEditor,
 })
 </script>
+
+<style scoped>
+.composer-actions {
+  border-top-color: color-mix(in oklab, var(--outline) 68%, white);
+  background: color-mix(in oklab, var(--surface-0) 82%, white);
+}
+
+.composer-email,
+.composer-comment {
+  border-top: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+</style>

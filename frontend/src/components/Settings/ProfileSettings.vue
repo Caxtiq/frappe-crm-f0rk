@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-8 text-ink-gray-8">
+  <div class="profile-settings-page flex h-full flex-col gap-6 p-8 text-ink-gray-8">
     <div class="flex-1 flex flex-col gap-6 mt-2 overflow-y-auto">
-      <div v-if="profile" class="flex w-full items-center justify-between">
+      <div v-if="profile" class="profile-top-card flex w-full items-center justify-between">
         <FileUploader
           @success="(file) => updateImage(file.file_url)"
           :validateFile="validateIsImageFile"
@@ -71,7 +71,7 @@
           v-model="showChangePasswordModal"
         />
       </div>
-      <div class="flex flex-col gap-4">
+      <div class="profile-fields-card flex flex-col gap-4">
         <div class="flex justify-between gap-4">
           <FormControl
             class="w-full"
@@ -86,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="flex justify-between items-center">
+    <div class="profile-footer flex justify-between items-center">
       <div>
         <ErrorMessage :message="error" />
       </div>
@@ -161,3 +161,23 @@ onMounted(() => {
   profile.value = { ...user.value }
 })
 </script>
+
+<style scoped>
+.profile-top-card,
+.profile-fields-card,
+.profile-footer {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.profile-top-card,
+.profile-footer {
+  padding: 1rem;
+}
+
+.profile-fields-card {
+  padding: 1rem;
+}
+</style>

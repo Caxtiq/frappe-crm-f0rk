@@ -38,7 +38,7 @@
   </LayoutHeader>
   <div
     v-if="doc.name"
-    class="flex h-12 items-center justify-between gap-2 border-b px-3 py-2.5"
+    class="mobile-deal-actions flex h-12 items-center justify-between gap-2 border-b px-3 py-2.5"
   >
     <AssignTo v-model="assignees.data" doctype="CRM Deal" :docname="dealId" />
     <div class="flex items-center gap-2">
@@ -52,12 +52,12 @@
       />
     </div>
   </div>
-  <div v-if="doc.name" class="flex h-full overflow-hidden">
+  <div v-if="doc.name" class="mobile-deal-page flex h-full overflow-hidden">
     <Tabs
       as="div"
       v-model="tabIndex"
       :tabs="tabs"
-      class="flex flex-1 overflow-auto flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-3 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="mobile-deal-tabs flex flex-1 overflow-auto flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-3 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel="{ tab }">
         <div v-if="tab.name == 'Details'">
@@ -659,3 +659,21 @@ function reloadAssignees(data) {
   }
 }
 </script>
+
+<style scoped>
+.mobile-deal-actions,
+.mobile-deal-tabs {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 90%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-deal-page {
+  padding: 0.55rem;
+}
+
+.mobile-deal-tabs :deep([role='tablist']) {
+  border-bottom: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+}
+</style>

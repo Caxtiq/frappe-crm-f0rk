@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6">
-    <div class="flex justify-between">
-      <div class="flex flex-col gap-1 w-9/12">
+  <div class="settings-page flex h-full flex-col gap-6">
+    <div class="settings-page-header flex justify-between">
+      <div class="flex w-9/12 flex-col gap-1">
         <div class="flex gap-1 items-center">
           <Button
             v-if="back"
@@ -26,7 +26,7 @@
           />
         </div>
       </div>
-      <div class="flex item-center space-x-2 w-3/12 justify-end">
+      <div class="flex item-center w-3/12 justify-end space-x-2">
         <Button
           :loading="data.save.loading"
           :label="__('Update')"
@@ -35,7 +35,7 @@
         />
       </div>
     </div>
-    <div v-if="!data.get.loading" class="flex-1 overflow-y-auto">
+    <div v-if="!data.get.loading" class="settings-page-body flex-1 overflow-y-auto">
       <FieldLayout
         v-if="data?.doc && tabs"
         :tabs="tabs"
@@ -158,3 +158,25 @@ const tabs = computed(() => {
   return _tabs
 })
 </script>
+
+<style scoped>
+.settings-page {
+  padding: 1.2rem;
+}
+
+.settings-page-header {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 90%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.settings-page-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  padding: 0.9rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

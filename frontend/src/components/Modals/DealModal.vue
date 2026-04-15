@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model="show" :options="{ size: '3xl' }">
     <template #body>
-      <div class="bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
+      <div class="deal-modal-body bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-2xl font-semibold leading-6 text-ink-gray-9">
@@ -59,7 +59,7 @@
           <ErrorMessage class="mt-4" v-if="error" :message="__(error)" />
         </div>
       </div>
-      <div class="px-4 pb-7 pt-4 sm:px-6">
+      <div class="deal-modal-footer px-4 pb-7 pt-4 sm:px-6">
         <div class="flex flex-row-reverse gap-2">
           <Button
             variant="solid"
@@ -256,3 +256,19 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+.deal-modal-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.deal-modal-footer {
+  margin-top: 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+</style>

@@ -1,24 +1,35 @@
 <template>
-  <div class="ai-chat-container">
+  <div class="ai-chat-container crm-fade-up">
     <div class="ai-chat-header">
       <div class="flex items-center gap-2">
-        <Icon name="sparkles" class="w-5 h-5 text-blue-500" />
-        <h3 class="text-lg font-semibold">AI Assistant</h3>
+        <svg class="h-5 w-5 text-[#1b8655]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+        </svg>
+        <div>
+          <h3 class="text-base font-semibold text-[var(--crm-text)]">AI Assistant</h3>
+          <p class="text-xs text-[var(--crm-text-soft)]">Context-aware CRM copilot</p>
+        </div>
       </div>
-      <Button variant="ghost" @click="$emit('close')">
-        <Icon name="x" class="w-4 h-4" />
+      <Button
+        class="rounded-xl border border-[var(--crm-border)] bg-[var(--crm-surface)] text-[var(--crm-text)] hover:bg-[var(--crm-surface-2)]"
+        variant="ghost"
+        @click="$emit('close')"
+      >
+        <FeatherIcon name="x" class="w-4 h-4" />
       </Button>
     </div>
 
     <div class="ai-chat-messages" ref="messagesContainer">
-      <div v-if="loading && messages.length === 0" class="text-center py-8">
-        <div class="animate-spin w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-        <p class="text-sm text-gray-500 mt-2">Loading conversation...</p>
+      <div v-if="loading && messages.length === 0" class="py-8 text-center">
+        <div class="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-[#1b8655] border-t-transparent"></div>
+        <p class="mt-2 text-sm text-[var(--crm-text-soft)]">Loading conversation...</p>
       </div>
 
-      <div v-else-if="messages.length === 0" class="text-center py-8">
-        <Icon name="sparkles" class="w-12 h-12 text-gray-300 mx-auto mb-3" />
-        <p class="text-sm text-gray-500">Ask me anything about your CRM data</p>
+      <div v-else-if="messages.length === 0" class="py-8 text-center">
+        <svg class="mx-auto mb-3 h-12 w-12 text-[#89a798]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+        </svg>
+        <p class="text-sm text-[var(--crm-text-soft)]">Ask me anything about your CRM data</p>
       </div>
 
       <div v-else>
@@ -31,7 +42,9 @@
           <div class="message-avatar">
             <UserAvatar v-if="message.role === 'user'" :user="message.user || 'You'" size="sm" />
             <div v-else class="ai-avatar">
-              <Icon name="sparkles" class="w-4 h-4 text-white" />
+              <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
             </div>
           </div>
           <div class="message-content">
@@ -44,7 +57,9 @@
       <div v-if="isProcessing" class="message message-ai">
         <div class="message-avatar">
           <div class="ai-avatar">
-            <Icon name="sparkles" class="w-4 h-4 text-white" />
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+            </svg>
           </div>
         </div>
         <div class="message-content">
@@ -71,7 +86,7 @@
         :loading="isProcessing"
         :disabled="!inputMessage.trim()"
       >
-        <Icon name="send" class="w-4 h-4" />
+        <FeatherIcon name="send" class="w-4 h-4" />
       </Button>
     </div>
   </div>
@@ -80,7 +95,8 @@
 <script setup>
 import { ref, onMounted, nextTick, watch } from 'vue'
 import { createResource } from 'frappe-ui'
-import { Icon, FormControl, Button, UserAvatar } from 'frappe-ui'
+import { FeatherIcon, FormControl, Button } from 'frappe-ui'
+import UserAvatar from '@/components/UserAvatar.vue'
 
 const props = defineProps({
   referenceDoctype: String,
@@ -207,27 +223,36 @@ onMounted(() => {
 .ai-chat-container {
   display: flex;
   flex-direction: column;
-  height: 600px;
-  background: white;
-  border-radius: 8px;
+  height: min(72vh, 680px);
+  min-height: 480px;
+  border-radius: 18px;
   overflow: hidden;
+  border: 1px solid var(--crm-border);
+  box-shadow: var(--crm-shadow);
+  background:
+    radial-gradient(ellipse 72% 60% at 8% -12%, rgba(124, 108, 248, 0.22), transparent),
+    radial-gradient(ellipse 55% 45% at 96% 8%, rgba(167, 139, 250, 0.16), transparent),
+    radial-gradient(ellipse 40% 35% at 50% 100%, rgba(109, 86, 245, 0.1), transparent),
+    linear-gradient(160deg, var(--crm-bg) 0%, var(--crm-bg-2) 100%);
 }
 
 .ai-chat-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #e5e7eb;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--crm-border);
+  background: color-mix(in oklab, var(--crm-surface) 90%, transparent);
+  backdrop-filter: blur(10px);
 }
 
 .ai-chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 1rem;
+  padding: 1rem 0.9rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
 .message {
@@ -246,15 +271,16 @@ onMounted(() => {
 .ai-avatar {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1d8657 0%, #38ad73 100%);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 18px rgba(22, 106, 67, 0.28);
 }
 
 .message-content {
-  max-width: 70%;
+  max-width: min(78%, 720px);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -265,34 +291,40 @@ onMounted(() => {
 }
 
 .message-text {
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  background: #f3f4f6;
+  padding: 0.7rem 0.9rem;
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse 120% 100% at 0% 0%, color-mix(in oklab, var(--crm-brand) 14%, transparent), transparent),
+    linear-gradient(160deg, color-mix(in oklab, var(--crm-surface) 96%, var(--crm-bg)), color-mix(in oklab, var(--crm-surface-2) 92%, var(--crm-bg-2)));
+  color: var(--crm-text);
   line-height: 1.5;
+  border: 1px solid var(--crm-border);
+  box-shadow: var(--crm-shadow-sm);
 }
 
 .message-user .message-text {
-  background: #3b82f6;
+  background: linear-gradient(145deg, #1b8655, #29a168);
   color: white;
+  border-color: rgba(20, 107, 67, 0.7);
 }
 
 .message-time {
   font-size: 0.75rem;
-  color: #9ca3af;
+  color: var(--crm-text-soft);
   padding: 0 0.5rem;
 }
 
 .typing-indicator {
   display: flex;
   gap: 4px;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 0.9rem;
 }
 
 .typing-indicator span {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #9ca3af;
+  background: var(--crm-text-soft);
   animation: typing 1.4s infinite;
 }
 
@@ -317,9 +349,26 @@ onMounted(() => {
 
 .ai-chat-input {
   display: flex;
+  align-items: flex-end;
   gap: 0.75rem;
-  padding: 1rem;
-  border-top: 1px solid #e5e7eb;
-  background: #f9fafb;
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--crm-border);
+  background: color-mix(in oklab, var(--crm-surface) 92%, transparent);
+}
+
+.ai-chat-input :deep(> div:first-child) {
+  flex: 1;
+}
+
+@media (max-width: 640px) {
+  .ai-chat-container {
+    height: calc(100vh - 8rem);
+    min-height: 420px;
+    border-radius: 14px;
+  }
+
+  .message-content {
+    max-width: 88%;
+  }
 }
 </style>

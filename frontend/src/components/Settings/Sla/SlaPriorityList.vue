@@ -1,5 +1,5 @@
 <template>
-  <div class="rounded-md border px-2 border-outline-gray-2 text-sm">
+  <div class="sla-priority-shell rounded-md border px-2 border-outline-gray-2 text-sm">
     <div
       class="grid p-3 px-4 items-center"
       :style="{
@@ -261,3 +261,12 @@ watchDebounced(
   { deep: true, debounce: 300 },
 )
 </script>
+
+<style scoped>
+.sla-priority-shell {
+  border-color: color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 0.95rem;
+  background: color-mix(in oklab, var(--surface-0) 92%, white);
+  box-shadow: var(--shadow-soft);
+}
+</style>

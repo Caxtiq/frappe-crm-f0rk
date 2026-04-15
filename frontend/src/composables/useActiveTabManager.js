@@ -17,19 +17,33 @@ export function useActiveTabManager(tabs, storageKey) {
     activeTab.value = tabName.toLowerCase()
   }, 300)
 
+  function getTabHash(tabName) {
+    return '#tab-' + tabName.toLowerCase()
+  }
+
+  function parseHash(hashValue) {
+    if (!hashValue) return ''
+    let hash = hashValue.replace('#', '').toLowerCase()
+    if (hash.startsWith('tab-')) {
+      return hash.slice(4)
+    }
+    return hash
+  }
+
   function setActiveTabInUrl(tabName) {
-    let hash = '#' + tabName.toLowerCase()
+    let hash = getTabHash(tabName)
     if (route.hash === hash) return
     router.push({ ...route, hash })
   }
 
   function getActiveTabFromUrl() {
-    return route.hash.replace('#', '')
+    return parseHash(route.hash)
   }
 
   function findTabIndex(tabName) {
+    let normalizedTabName = (tabName || '').toLowerCase()
     return tabs.value?.findIndex(
-      (tabOptions) => tabOptions.name.toLowerCase() === tabName,
+      (tabOptions) => tabOptions.name.toLowerCase() === normalizedTabName,
     )
   }
 
@@ -70,7 +84,7 @@ export function useActiveTabManager(tabs, storageKey) {
     (tabValue) => {
       if (!tabValue) return
 
-      let tabName = tabValue.replace('#', '')
+      let tabName = parseHash(tabValue)
       let index = findTabIndex(tabName)
       if (index === -1) index = 0
 

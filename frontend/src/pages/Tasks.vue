@@ -1,5 +1,6 @@
 <template>
-  <LayoutHeader>
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
     <template #left-header>
       <ViewBreadcrumbs v-model="viewControls" routeName="Tasks" />
     </template>
@@ -15,8 +16,9 @@
         @click="createTask"
       />
     </template>
-  </LayoutHeader>
-  <ViewControls
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
     ref="viewControls"
     v-model="tasks"
     v-model:loadMore="loadMore"
@@ -26,8 +28,9 @@
     :options="{
       allowedViews: ['list', 'kanban'],
     }"
-  />
-  <KanbanView
+    />
+    <KanbanView
+      class="entity-body mt-3 rounded-2xl"
     v-if="$route.params.viewType == 'kanban' && rows.length"
     v-model="tasks"
     :options="{
@@ -151,8 +154,9 @@
         </Dropdown>
       </div>
     </template>
-  </KanbanView>
-  <TasksListView
+    </KanbanView>
+    <TasksListView
+      class="entity-body mt-3 rounded-2xl"
     ref="tasksListView"
     v-else-if="tasks.data && rows.length"
     v-model="tasks.data.page_length_count"
@@ -175,12 +179,14 @@
     @selectionsChanged="
       (selections) => viewControls.updateSelections(selections)
     "
-  />
-  <EmptyState
+    />
+    <EmptyState
+      class="entity-body mt-3 rounded-2xl"
     v-else-if="tasks.data && !rows.length"
     name="tasks"
     :icon="Email2Icon"
-  />
+    />
+  </div>
   <TaskModal
     v-if="showTaskModal"
     v-model="showTaskModal"
@@ -415,3 +421,16 @@ const openTaskFromURL = () => {
   }
 }
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 14px 30px rgba(18, 65, 41, 0.1);
+}
+</style>

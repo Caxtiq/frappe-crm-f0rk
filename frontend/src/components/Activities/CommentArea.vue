@@ -1,5 +1,5 @@
 <template>
-  <div :id="activity.name">
+  <div :id="activity.name" class="comment-activity">
     <div class="mb-1 flex items-center justify-stretch gap-2 py-1 text-base">
       <div class="inline-flex items-center flex-wrap gap-1 text-ink-gray-5">
         <UserAvatar class="mr-1" :user="activity.owner" size="md" />
@@ -20,7 +20,7 @@
       </div>
     </div>
     <div
-      class="cursor-pointer rounded bg-surface-gray-1 px-3 py-[7.5px] text-base leading-6 transition-all duration-300 ease-in-out"
+      class="comment-body cursor-pointer rounded bg-surface-gray-1 px-3 py-[7.5px] text-base leading-6 transition-all duration-300 ease-in-out"
     >
       <div class="prose-f" v-html="activity.content" />
       <div v-if="activity.attachments.length" class="mt-2 flex flex-wrap gap-2">
@@ -43,3 +43,12 @@ const props = defineProps({
   activity: Object,
 })
 </script>
+
+<style scoped>
+.comment-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 64%, white);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 88%, white), var(--surface-1));
+  box-shadow: var(--shadow-soft);
+}
+</style>

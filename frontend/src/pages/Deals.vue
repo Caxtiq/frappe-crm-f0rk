@@ -1,46 +1,49 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Deals" />
-    </template>
-    <template #right-header>
-      <CustomActions
-        v-if="dealsListView?.customListActions"
-        :actions="dealsListView.customListActions"
-      />
-      <Button
-        variant="solid"
-        :label="__('Create')"
-        iconLeft="plus"
-        @click="showDealModal = true"
-      />
-    </template>
-  </LayoutHeader>
-  <ViewControls
-    ref="viewControls"
-    v-model="deals"
-    v-model:loadMore="loadMore"
-    v-model:resizeColumn="triggerResize"
-    v-model:updatedPageCount="updatedPageCount"
-    doctype="CRM Deal"
-    :options="{
-      allowedViews: ['list', 'group_by', 'kanban'],
-    }"
-  />
-  <KanbanView
-    v-if="route.params.viewType == 'kanban'"
-    v-model="deals"
-    :options="{
-      getRoute: (row) => ({
-        name: 'Deal',
-        params: { dealId: row.name },
-        query: { view: route.query.view, viewType: route.params.viewType },
-      }),
-      onNewClick: (column) => onNewClick(column),
-    }"
-    @update="(data) => viewControls.updateKanbanSettings(data)"
-    @loadMore="(columnName) => viewControls.loadMoreKanban(columnName)"
-  >
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs v-model="viewControls" routeName="Deals" />
+      </template>
+      <template #right-header>
+        <CustomActions
+          v-if="dealsListView?.customListActions"
+          :actions="dealsListView.customListActions"
+        />
+        <Button
+          variant="solid"
+          :label="__('Create')"
+          iconLeft="plus"
+          @click="showDealModal = true"
+        />
+      </template>
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
+      ref="viewControls"
+      v-model="deals"
+      v-model:loadMore="loadMore"
+      v-model:resizeColumn="triggerResize"
+      v-model:updatedPageCount="updatedPageCount"
+      doctype="CRM Deal"
+      :options="{
+        allowedViews: ['list', 'group_by', 'kanban'],
+      }"
+    />
+    <KanbanView
+      class="entity-body mt-3 rounded-2xl"
+      v-if="route.params.viewType == 'kanban'"
+      v-model="deals"
+      :options="{
+        getRoute: (row) => ({
+          name: 'Deal',
+          params: { dealId: row.name },
+          query: { view: route.query.view, viewType: route.params.viewType },
+        }),
+        onNewClick: (column) => onNewClick(column),
+      }"
+      @update="(data) => viewControls.updateKanbanSettings(data)"
+      @loadMore="(columnName) => viewControls.loadMoreKanban(columnName)"
+    >
     <template #title="{ titleField, itemName }">
       <div class="flex gap-2 items-center">
         <div v-if="titleField === 'status'">
@@ -202,35 +205,38 @@
         </Dropdown>
       </div>
     </template>
-  </KanbanView>
-  <DealsListView
-    ref="dealsListView"
-    v-else-if="deals.data && rows.length"
-    v-model="deals.data.page_length_count"
-    v-model:list="deals"
-    :rows="rows"
-    :columns="columns"
-    :options="{
-      showTooltip: false,
-      resizeColumn: true,
-      rowCount: deals.data.row_count,
-      totalCount: deals.data.total_count,
-    }"
-    @loadMore="() => loadMore++"
-    @columnWidthUpdated="() => triggerResize++"
-    @updatePageCount="(count) => (updatedPageCount = count)"
-    @applyFilter="(data) => viewControls.applyFilter(data)"
-    @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
-    @likeDoc="(data) => viewControls.likeDoc(data)"
-    @selectionsChanged="
-      (selections) => viewControls.updateSelections(selections)
-    "
-  />
-  <EmptyState
-    v-else-if="deals.data && !rows.length"
-    name="deals"
-    :icon="DealsIcon"
-  />
+    </KanbanView>
+    <DealsListView
+      class="entity-body mt-3 rounded-2xl"
+      ref="dealsListView"
+      v-else-if="deals.data && rows.length"
+      v-model="deals.data.page_length_count"
+      v-model:list="deals"
+      :rows="rows"
+      :columns="columns"
+      :options="{
+        showTooltip: false,
+        resizeColumn: true,
+        rowCount: deals.data.row_count,
+        totalCount: deals.data.total_count,
+      }"
+      @loadMore="() => loadMore++"
+      @columnWidthUpdated="() => triggerResize++"
+      @updatePageCount="(count) => (updatedPageCount = count)"
+      @applyFilter="(data) => viewControls.applyFilter(data)"
+      @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
+      @likeDoc="(data) => viewControls.likeDoc(data)"
+      @selectionsChanged="
+        (selections) => viewControls.updateSelections(selections)
+      "
+    />
+    <EmptyState
+      v-else-if="deals.data && !rows.length"
+      class="entity-body mt-3 rounded-2xl"
+      name="deals"
+      :icon="DealsIcon"
+    />
+  </div>
   <DealModal
     v-if="showDealModal"
     v-model="showDealModal"
@@ -557,3 +563,16 @@ function showTask(name) {
   showTaskModal.value = true
 }
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 14px 30px rgba(18, 65, 41, 0.1);
+}
+</style>

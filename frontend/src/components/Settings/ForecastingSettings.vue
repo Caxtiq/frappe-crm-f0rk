@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-full flex-col gap-6 py-8 px-6 text-ink-gray-8">
-    <div class="flex flex-col gap-1 px-2">
+  <div class="forecasting-page flex h-full flex-col gap-6 py-8 px-6 text-ink-gray-8">
+    <div class="forecasting-head flex flex-col gap-1 px-2">
       <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
         {{ __('Forecasting') }}
       </h2>
@@ -13,7 +13,7 @@
       </p>
     </div>
 
-    <div class="flex-1 flex flex-col overflow-y-auto">
+    <div class="forecasting-body flex-1 flex flex-col overflow-y-auto">
       <div class="flex items-center justify-between py-3 px-2">
         <div class="flex flex-col">
           <div class="text-p-base font-medium text-ink-gray-7 truncate">
@@ -91,3 +91,21 @@ function autoUpdateExpectedDealValue() {
   })
 }
 </script>
+
+<style scoped>
+.forecasting-head,
+.forecasting-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.forecasting-head {
+  padding: 0.75rem 0.55rem;
+}
+
+.forecasting-body {
+  padding: 0.65rem;
+}
+</style>

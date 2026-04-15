@@ -1,0 +1,12 @@
+{
+ "db_name": "_29402e52a87f28e9",
+ "db_host": "172.18.0.2",
+ "db_password": "JYcurQeypTfWeGVA",
+ "db_type": "mariadb",
+ "db_user": "_29402e52a87f28e9",
+ "developer_mode": 1,
+ "encryption_key": "1A15JHmiI2UKoCVS5M38mSYWKQ-YPjownWbC35Q2iqo=",
+ "session_expiry": "168:00:00",
+ "session_expiry_mobile": "168:00:00",
+ "ignore_csrf": 1
+}

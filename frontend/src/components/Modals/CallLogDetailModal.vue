@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model="show">
     <template #body>
-      <div class="bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
+      <div class="call-detail-body bg-surface-modal px-4 pb-6 pt-5 sm:px-6">
         <div class="mb-5 flex items-center justify-between">
           <div>
             <h3 class="text-2xl font-semibold leading-6 text-ink-gray-9">
@@ -143,7 +143,7 @@
       </div>
       <div
         v-if="!callLog?.data?._lead && !callLog?.data?._deal"
-        class="px-4 pb-7 pt-4 sm:px-6"
+        class="call-detail-footer px-4 pb-7 pt-4 sm:px-6"
       >
         <Button
           class="w-full"
@@ -374,6 +374,20 @@ watch(
 </script>
 
 <style scoped>
+.call-detail-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.call-detail-footer {
+  margin-top: 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+
 .audio-control {
   height: 36px;
   outline: none;

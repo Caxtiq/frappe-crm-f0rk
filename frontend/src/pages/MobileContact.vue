@@ -10,7 +10,10 @@
       </Breadcrumbs>
     </header>
   </LayoutHeader>
-  <div v-if="contact.doc" class="flex flex-col h-full overflow-hidden">
+  <div
+    v-if="contact.doc"
+    class="mobile-contact-page flex h-full flex-col overflow-hidden"
+  >
     <FileUploader
       @success="changeContactImage"
       :validateFile="validateIsImageFile"
@@ -102,7 +105,7 @@
       as="div"
       v-model="tabIndex"
       :tabs="tabs"
-      class="flex flex-1 overflow-auto flex-col [&_[role='tablist']]:gap-3 [&_[role='tablist']]:px-4 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="mobile-contact-tabs flex flex-1 overflow-auto flex-col [&_[role='tablist']]:gap-3 [&_[role='tablist']]:px-4 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-item="{ tab, selected }">
         <button
@@ -553,3 +556,22 @@ function openAddressModal(_address) {
   }
 }
 </script>
+
+<style scoped>
+.mobile-contact-page {
+  gap: 0.65rem;
+  padding: 0.55rem;
+}
+
+.mobile-contact-page > :deep(.file-uploader),
+.mobile-contact-tabs {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 90%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-contact-tabs :deep([role='tablist']) {
+  border-bottom: 1px solid color-mix(in oklab, var(--outline) 70%, white);
+}
+</style>

@@ -41,16 +41,20 @@
             :loading="generating"
             class="w-full"
           >
-            <Icon name="sparkles" class="w-4 h-4 mr-2" />
+            <template #prefix>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+            </template>
             Generate Email
           </Button>
         </div>
 
         <div v-if="generatedEmail" class="email-preview mt-6">
           <div class="flex items-center justify-between mb-3">
-            <h4 class="font-semibold">Generated Email</h4>
+            <h4 class="font-semibold text-ink-gray-9">Generated Email</h4>
             <Button variant="ghost" size="sm" @click="copyToClipboard">
-              <Icon name="copy" class="w-4 h-4" />
+              <FeatherIcon name="copy" class="w-4 h-4" />
             </Button>
           </div>
           <div class="email-content">
@@ -76,7 +80,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { createResource } from 'frappe-ui'
-import { Dialog, FormControl, Button, Icon } from 'frappe-ui'
+import { Dialog, FormControl, Button, FeatherIcon } from 'frappe-ui'
 
 const props = defineProps({
   modelValue: Boolean,
@@ -155,6 +159,7 @@ const useEmail = () => {
 <style scoped>
 .email-composer {
   padding: 1rem;
+  background: var(--surface-white);
 }
 
 .form-section {
@@ -164,21 +169,21 @@ const useEmail = () => {
 }
 
 .email-preview {
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--outline-gray-2);
   border-radius: 8px;
   padding: 1rem;
-  background: #f9fafb;
+  background: var(--surface-gray-2);
 }
 
 .email-content {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: var(--surface-white);
+  border: 1px solid var(--outline-gray-2);
   border-radius: 6px;
   padding: 1rem;
 }
 
 .email-text {
   line-height: 1.6;
-  color: #374151;
+  color: var(--ink-gray-8);
 }
 </style>

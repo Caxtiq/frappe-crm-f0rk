@@ -1,5 +1,8 @@
 import './index.css'
 
+// Apply dark theme before Vue mounts to prevent flash of light-mode Frappe-UI tokens
+document.documentElement.setAttribute('data-theme', 'dark')
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { createDialog } from './utils/dialogs'

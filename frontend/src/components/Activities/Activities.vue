@@ -10,7 +10,7 @@
     :whatsappBox="whatsappBox"
     :modalRef="modalRef"
   />
-  <FadedScrollableDiv class="flex flex-col h-full overflow-y-auto">
+  <FadedScrollableDiv class="activity-scroll flex h-full flex-col overflow-y-auto">
     <div
       v-if="all_activities?.loading"
       class="flex flex-1 flex-col items-center justify-center gap-3 text-xl font-medium text-ink-gray-4"
@@ -381,7 +381,7 @@
       :top="top"
     />
   </FadedScrollableDiv>
-  <div>
+  <div class="activity-composer-wrap">
     <CommunicationArea
       ref="emailBox"
       v-if="['Emails', 'Comments', 'Activity'].includes(title)"
@@ -564,13 +564,22 @@ onMounted(() => {
   })
 
   nextTick(() => {
-    const hash = route.hash.slice(1) || null
-    let tabNames = props.tabs?.map((tab) => tab.name)
+    const hash = getHashValue(route.hash)
+    let tabNames = props.tabs?.map((tab) => tab.name.toLowerCase())
     if (!tabNames?.includes(hash)) {
       scroll(hash)
     }
   })
 })
+
+function getHashValue(hash) {
+  if (!hash) return null
+  let value = hash.replace('#', '').toLowerCase()
+  if (value.startsWith('tab-')) {
+    return value.slice(4)
+  }
+  return value
+}
 
 function sendTemplate(template) {
   showWhatsappTemplates.value = false
@@ -795,7 +804,7 @@ watch([reload, reload_email], ([reload_value, reload_email_value]) => {
 })
 
 function scroll(hash) {
-  if (['tasks', 'notes', 'events'].includes(route.hash?.slice(1))) return
+  if (['tasks', 'notes', 'events'].includes(getHashValue(route.hash))) return
   setTimeout(() => {
     let el
     if (!hash) {
@@ -805,11 +814,38 @@ function scroll(hash) {
       el = document.getElementById(hash)
     }
     if (el && !useElementVisibility(el).value) {
-      el.scrollIntoView({ behavior: 'smooth' })
-      el.focus()
+      // Safely scroll only the innermost overflow container to avoid pulling the entire page layout
+      let scrollContainer = el.closest('.activity-scroll')
+      if (scrollContainer) {
+        scrollContainer.scrollTo({
+           top: el.offsetTop - 20,
+           behavior: 'smooth'
+        })
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+      }
+      el.focus({ preventScroll: true })
     }
   }, 500)
 }
 
 defineExpose({ emailBox, all_activities, changeTabTo })
 </script>
+
+<style scoped>
+.activity-scroll {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.activity-composer-wrap {
+  margin-top: 0.6rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+</style>

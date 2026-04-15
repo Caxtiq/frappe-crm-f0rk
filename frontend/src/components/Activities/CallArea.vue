@@ -26,7 +26,7 @@
     </div>
     <div
       @click="showCallLogDetailModal = true"
-      class="flex flex-col gap-2 border cursor-pointer border-outline-gray-modals rounded-md bg-surface-cards px-3 py-2.5 text-ink-gray-9"
+      class="call-card flex cursor-pointer flex-col gap-2 border border-outline-gray-modals rounded-md bg-surface-cards px-3 py-2.5 text-ink-gray-9"
     >
       <div class="flex items-center justify-between">
         <div class="inline-flex gap-2 items-center text-base font-medium">
@@ -131,3 +131,12 @@ const callLog = createResource({
 const showCallLogDetailModal = ref(false)
 const showCallLogModal = ref(false)
 </script>
+
+<style scoped>
+.call-card {
+  border-color: color-mix(in oklab, var(--outline) 64%, white);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 90%, white), var(--surface-1));
+  box-shadow: var(--shadow-soft);
+}
+</style>

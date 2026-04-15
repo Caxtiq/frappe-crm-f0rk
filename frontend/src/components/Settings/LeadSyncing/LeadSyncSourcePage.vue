@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 p-6">
+  <div class="lead-sync-shell flex-1 p-6">
     <LeadSyncSourceForm
       v-if="step === 'new-source'"
       :sourceData="source"
@@ -50,3 +50,13 @@ function updateStep(newStep, data) {
   source.value = data
 }
 </script>
+
+<style scoped>
+.lead-sync-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  margin: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

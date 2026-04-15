@@ -11,7 +11,7 @@
     description="Add one to get started."
     :icon="h(SettingsIcon2, { class: 'rotate-90'})"
   />
-  <div v-else>
+  <div v-else class="assignment-rules-list-shell">
     <div class="flex items-center py-2 px-4 text-sm text-ink-gray-5">
       <div class="w-7/12">{{ __('Assignment rule') }}</div>
       <div class="w-3/12">{{ __('Priority') }}</div>
@@ -39,3 +39,11 @@ import { inject, h } from 'vue'
 
 const assignmentRulesList = inject('assignmentRulesList')
 </script>
+
+<style scoped>
+.assignment-rules-list-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--surface-0) 92%, white);
+}
+</style>

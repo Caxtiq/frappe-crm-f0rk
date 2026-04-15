@@ -54,7 +54,7 @@
           description="Add one to get started."
           :icon="ShieldCheck"
         />
-        <div v-else class="-ml-2">
+        <div v-else class="sla-policy-list-shell -ml-2">
           <div
             class="grid grid-cols-7 items-center gap-3 text-sm text-gray-600 ml-2"
           >
@@ -278,3 +278,12 @@ watch(slaSearchQuery, (newValue) => {
   slaPolicyListResource.reload()
 })
 </script>
+
+<style scoped>
+.sla-policy-list-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 0.9rem;
+  padding: 0.45rem;
+  background: color-mix(in oklab, var(--surface-0) 92%, white);
+}
+</style>

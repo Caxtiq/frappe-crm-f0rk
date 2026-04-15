@@ -1,6 +1,6 @@
 <template>
   <div
-    class="cursor-pointer flex flex-col rounded-md shadow bg-surface-cards px-3 py-1.5 text-base transition-all duration-300 ease-in-out"
+    class="email-card cursor-pointer flex flex-col rounded-md shadow bg-surface-cards px-3 py-1.5 text-base transition-all duration-300 ease-in-out"
   >
     <div
       class="-mb-0.5 flex items-center justify-between gap-2 truncate text-ink-gray-9"
@@ -64,7 +64,7 @@
         <span v-if="activity.data.bcc">{{ activity.data.bcc }}</span>
       </div>
     </div>
-    <div class="border-0 border-t mt-3 mb-1 border-outline-gray-modals" />
+    <div class="email-divider border-0 border-t mt-3 mb-1 border-outline-gray-modals" />
     <EmailContent :content="activity.data.content" />
     <div v-if="activity.data?.attachments?.length" class="flex flex-wrap gap-2">
       <AttachmentItem
@@ -153,3 +153,16 @@ const status = computed(() => {
   return { label: _status, color: indicator_color }
 })
 </script>
+
+<style scoped>
+.email-card {
+  border: 1px solid color-mix(in oklab, var(--outline) 64%, white);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-1));
+  box-shadow: var(--shadow-soft);
+}
+
+.email-divider {
+  border-color: color-mix(in oklab, var(--outline) 66%, white);
+}
+</style>

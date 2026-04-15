@@ -2,13 +2,13 @@
   <Dropdown :options="dropdownItems" v-bind="$attrs">
     <template #default="{ open }">
       <button
-        class="flex h-12 items-center rounded-md py-2 duration-300 ease-in-out"
+        class="flex h-14 items-center rounded-xl border py-2 duration-200 ease-out"
         :class="
           isCollapsed
             ? 'w-auto px-0'
             : open
-              ? 'w-full px-2 bg-surface-white shadow-sm'
-              : 'w-full px-2 hover:bg-surface-gray-3'
+              ? 'w-full border-[var(--crm-border-strong)] bg-white/[0.06] px-2.5 shadow-[var(--crm-glow-ring)]'
+              : 'w-full border-transparent bg-white/[0.03] px-2.5 hover:border-[var(--crm-border)] hover:bg-white/[0.06]'
         "
       >
         <BrandLogo v-model="brand" class="h-8 max-w-16 flex-shrink-0" />
@@ -21,11 +21,11 @@
           "
         >
           <div
-            class="text-base font-medium leading-none text-ink-gray-9 truncate"
+            class="truncate text-base font-semibold leading-none text-[var(--crm-text)]"
           >
             {{ __(brand.name || 'CRM') }}
           </div>
-          <div class="mt-1 text-sm leading-none text-ink-gray-7 truncate">
+          <div class="mt-1 truncate text-xs leading-none text-[var(--crm-text-soft)]">
             {{ user.full_name }}
           </div>
         </div>
@@ -39,7 +39,7 @@
         >
           <FeatherIcon
             name="chevron-down"
-            class="size-4 text-ink-gray-5"
+            class="size-4 text-[var(--crm-text-soft)]"
             aria-hidden="true"
           />
         </div>

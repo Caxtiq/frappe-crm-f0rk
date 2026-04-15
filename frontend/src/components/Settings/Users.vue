@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 p-6 text-ink-gray-8">
+  <div class="users-settings-page flex h-full flex-col gap-6 p-6 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 pt-2">
+    <div class="users-settings-head flex justify-between px-2 pt-2">
       <div class="flex flex-col gap-1 w-9/12">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Users') }}
@@ -56,7 +56,7 @@
 
     <!-- Users List -->
     <div
-      class="flex flex-col overflow-hidden"
+      class="users-settings-list flex flex-col overflow-hidden"
       v-if="!users.loading && users.data?.crmUsers?.length > 1"
     >
       <div
@@ -305,3 +305,21 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+.users-settings-head,
+.users-settings-list {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.users-settings-head {
+  padding: 0.6rem 0.5rem;
+}
+
+.users-settings-list {
+  padding: 0.5rem;
+}
+</style>

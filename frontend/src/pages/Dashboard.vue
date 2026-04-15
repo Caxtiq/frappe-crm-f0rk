@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full overflow-hidden">
+  <div class="dashboard-shell flex h-full flex-col overflow-hidden px-3 pb-3 sm:px-5 sm:pb-5">
     <LayoutHeader>
       <template #left-header>
         <ViewBreadcrumbs routeName="Dashboard" />
@@ -41,7 +41,7 @@
       </template>
     </LayoutHeader>
 
-    <div class="p-5 pb-2 flex items-center gap-4">
+    <div class="dashboard-filters mt-3 flex items-center gap-4 rounded-2xl px-4 py-3">
       <Dropdown
         v-if="!showDatePicker"
         :options="options"
@@ -114,9 +114,9 @@
       </Link>
     </div>
 
-    <div class="w-full overflow-y-scroll">
+    <div class="dashboard-grid-wrap mt-3 w-full overflow-y-auto rounded-2xl">
       <DashboardGrid
-        class="pt-1"
+        class="pt-2"
         v-if="!dashboardItems.loading && dashboardItems.data"
         v-model="dashboardItems.data"
         :editing="editing"
@@ -304,3 +304,44 @@ usePageMeta(() => {
   return { title: __('CRM dashboard') }
 })
 </script>
+
+<style scoped>
+.dashboard-shell {
+  background:
+    radial-gradient(ellipse 60% 45% at 12% -12%, rgba(124, 108, 248, 0.22), transparent),
+    radial-gradient(ellipse 42% 38% at 96% 10%, rgba(167, 139, 250, 0.16), transparent),
+    linear-gradient(180deg, rgba(11, 14, 28, 0.72), rgba(8, 10, 20, 0.42));
+}
+
+.dashboard-filters {
+  border: 1px solid var(--crm-border-strong);
+  background: rgba(18, 20, 34, 0.75);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.30),
+    inset 0 1px 0 rgba(124, 108, 248, 0.10);
+  backdrop-filter: blur(14px);
+}
+
+.dashboard-grid-wrap {
+  border: 1px solid var(--crm-border);
+  background:
+    radial-gradient(120% 90% at 0% 0%, rgba(124, 108, 248, 0.08), transparent),
+    linear-gradient(180deg, rgba(14, 17, 32, 0.72), rgba(10, 12, 24, 0.62));
+  box-shadow:
+    0 14px 48px rgba(0, 0, 0, 0.40),
+    inset 0 1px 0 rgba(124, 108, 248, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.dashboard-shell :deep(.text-xs) {
+  font-size: 0.82rem !important;
+}
+
+.dashboard-shell :deep(.text-sm) {
+  font-size: 0.95rem !important;
+}
+
+.dashboard-shell :deep(.text-base) {
+  font-size: 1.06rem !important;
+}
+</style>

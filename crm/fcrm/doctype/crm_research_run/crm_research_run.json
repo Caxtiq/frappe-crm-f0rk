@@ -1,0 +1,215 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:RRUN-{####}",
+ "creation": "2026-04-14 00:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "experiment_type",
+  "run_stage",
+  "variant",
+  "column_break_meta",
+  "owner_user",
+  "is_success",
+  "section_break_reference",
+  "reference_doctype",
+  "reference_name",
+  "section_break_action",
+  "recommended_action",
+  "observed_outcome",
+  "conversion_delta_percent",
+  "response_time_hours",
+  "regret",
+  "fairness_gap",
+  "section_break_payload",
+  "input_payload",
+  "result_payload",
+  "metrics_payload",
+  "section_break_period",
+  "period_start",
+  "period_end",
+  "executed_at",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "experiment_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Experiment Type",
+   "options": "Next Best Action\nAdaptive SLA Bandit\nExplainable Scoring\nOutcome Summary\nFairness Audit\nAB Report",
+   "reqd": 1
+  },
+  {
+   "default": "Executed",
+   "fieldname": "run_stage",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Run Stage",
+   "options": "Draft\nExecuted\nOutcome Logged",
+   "reqd": 1
+  },
+  {
+   "fieldname": "variant",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Variant"
+  },
+  {
+   "fieldname": "column_break_meta",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "frappe.session.user",
+   "fieldname": "owner_user",
+   "fieldtype": "Link",
+   "label": "Owner User",
+   "options": "User"
+  },
+  {
+   "fieldname": "is_success",
+   "fieldtype": "Check",
+   "label": "Is Success"
+  },
+  {
+   "fieldname": "section_break_reference",
+   "fieldtype": "Section Break",
+   "label": "Reference"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference DocType",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Reference Name",
+   "options": "reference_doctype"
+  },
+  {
+   "fieldname": "section_break_action",
+   "fieldtype": "Section Break",
+   "label": "Outcome"
+  },
+  {
+   "fieldname": "recommended_action",
+   "fieldtype": "Small Text",
+   "label": "Recommended Action"
+  },
+  {
+   "fieldname": "observed_outcome",
+   "fieldtype": "Data",
+   "label": "Observed Outcome"
+  },
+  {
+   "fieldname": "conversion_delta_percent",
+   "fieldtype": "Float",
+   "label": "Conversion Delta (%)"
+  },
+  {
+   "fieldname": "response_time_hours",
+   "fieldtype": "Float",
+   "label": "Response Time (hours)"
+  },
+  {
+   "fieldname": "regret",
+   "fieldtype": "Float",
+   "label": "Regret"
+  },
+  {
+   "fieldname": "fairness_gap",
+   "fieldtype": "Float",
+   "label": "Fairness Gap"
+  },
+  {
+   "fieldname": "section_break_payload",
+   "fieldtype": "Section Break",
+   "label": "Payloads"
+  },
+  {
+   "fieldname": "input_payload",
+   "fieldtype": "Code",
+   "label": "Input Payload (JSON)",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "result_payload",
+   "fieldtype": "Code",
+   "label": "Result Payload (JSON)",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "metrics_payload",
+   "fieldtype": "Code",
+   "label": "Metrics Payload (JSON)",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "section_break_period",
+   "fieldtype": "Section Break",
+   "label": "Period"
+  },
+  {
+   "fieldname": "period_start",
+   "fieldtype": "Date",
+   "label": "Period Start"
+  },
+  {
+   "fieldname": "period_end",
+   "fieldtype": "Date",
+   "label": "Period End"
+  },
+  {
+   "fieldname": "executed_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Executed At"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-14 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "fCRM",
+ "name": "CRM Research Run",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

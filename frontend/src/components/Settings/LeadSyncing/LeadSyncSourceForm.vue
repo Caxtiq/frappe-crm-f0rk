@@ -1,7 +1,7 @@
 <template>
-	<div class="flex h-full flex-col text-ink-gray-8">
+	<div class="lead-source-form-page flex h-full flex-col text-ink-gray-8">
 		<!-- Header -->
-		<div class="flex justify-between px-2 pt-2">
+		<div class="lead-source-form-head flex justify-between px-2 pt-2">
 			<div class="flex gap-1 -ml-4 w-9/12">
 				<Button variant="ghost" icon-left="chevron-left"
 					:label="isLocal ? __('New lead sync source') : syncSource.name" size="md"
@@ -24,9 +24,9 @@
 			</div>
 		</div>
 
-		<Tabs as="div" v-model="tabIndex" :tabs="tabs" class="mt-2">
+		<Tabs as="div" v-model="tabIndex" :tabs="tabs" class="lead-source-form-tabs mt-2">
 			<template #tab-panel="{ tab }">
-				<div v-if="tab.label == 'Details'" class="overflow-hidden flex h-full flex-col gap-6 mt-4">
+				<div v-if="tab.label == 'Details'" class="lead-source-form-body overflow-hidden flex h-full flex-col gap-6 mt-4">
 					<!-- Form -->
 					<div class="grid grid-cols-2 gap-4">
 						<FormControl type="autocomplete" required="true" v-model="syncSource.type"
@@ -345,3 +345,26 @@ function getSourceDocResource(name) {
 	})
 }
 </script>
+
+<style scoped>
+.lead-source-form-head,
+.lead-source-form-tabs,
+.lead-source-form-body {
+	border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+	border-radius: 1rem;
+	background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+	box-shadow: var(--shadow-soft);
+}
+
+.lead-source-form-head {
+	padding: 0.75rem 0.55rem;
+}
+
+.lead-source-form-tabs {
+	padding: 0.65rem;
+}
+
+.lead-source-form-body {
+	padding: 0.75rem;
+}
+</style>

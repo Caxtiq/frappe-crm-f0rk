@@ -11,19 +11,19 @@
         leave-to="-translate-x-full"
       >
         <div
-          class="relative z-10 flex h-full w-[260px] flex-col justify-between border-r bg-surface-menu-bar transition-all duration-300 ease-in-out"
+          class="relative z-10 m-2 flex h-[calc(100%-1rem)] w-[280px] flex-col justify-between rounded-2xl border border-[var(--crm-border)] bg-white/90 shadow-2xl transition-all duration-300 ease-in-out"
         >
           <div>
             <UserDropdown class="p-2" :isCollapsed="!sidebarOpened" />
           </div>
           <div class="flex-1 overflow-y-auto">
-            <div class="mb-3 flex flex-col">
+            <div class="mb-2 flex flex-col">
               <SidebarLink
                 id="notifications-btn"
                 :label="__('Notifications')"
                 :icon="NotificationsIcon"
                 :to="{ name: 'Notifications' }"
-                class="relative mx-2 my-0.5"
+                class="relative mx-1.5 my-0.5"
               >
                 <template #right>
                   <Badge
@@ -43,12 +43,12 @@
                 <template #header="{ opened, hide, toggle }">
                   <div
                     v-if="!hide"
-                    class="ml-2 mt-4 flex h-7 w-auto cursor-pointer gap-1.5 px-1 text-base font-medium text-ink-gray-5 opacity-100 transition-all duration-300 ease-in-out"
+                    class="ml-2 mt-3 flex h-7 w-auto cursor-pointer gap-1.5 px-1 text-[0.95rem] font-semibold uppercase tracking-wide text-[var(--crm-text-soft)] opacity-100 transition-all duration-300 ease-in-out"
                     @click="toggle()"
                   >
                     <FeatherIcon
                       name="chevron-right"
-                      class="h-4 text-ink-gray-9 transition-all duration-300 ease-in-out"
+                      class="h-4 text-[var(--crm-text)] transition-all duration-300 ease-in-out"
                       :class="{ 'rotate-90': opened }"
                     />
                     <span>{{ __(view.name) }}</span>
@@ -60,7 +60,7 @@
                     :icon="link.icon"
                     :label="__(link.label)"
                     :to="link.to"
-                    class="mx-2 my-0.5"
+                    class="mx-1.5 my-0.5"
                   />
                 </nav>
               </CollapsibleSection>
@@ -77,7 +77,7 @@
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <DialogOverlay class="fixed inset-0 bg-gray-600 bg-opacity-50" />
+        <DialogOverlay class="fixed inset-0 bg-[#1e3628]/35 backdrop-blur-[2px]" />
       </TransitionChild>
     </Dialog>
   </TransitionRoot>
@@ -100,6 +100,7 @@ import OrganizationsIcon from '@/components/Icons/OrganizationsIcon.vue'
 import NoteIcon from '@/components/Icons/NoteIcon.vue'
 import TaskIcon from '@/components/Icons/TaskIcon.vue'
 import PhoneIcon from '@/components/Icons/PhoneIcon.vue'
+import SparkleIcon from '@/components/Icons/SparkleIcon.vue'
 import NotificationsIcon from '@/components/Icons/NotificationsIcon.vue'
 import SidebarLink from '@/components/SidebarLink.vue'
 import { viewsStore } from '@/stores/views'
@@ -146,6 +147,11 @@ const links = [
     label: 'Call Logs',
     icon: PhoneIcon,
     to: 'Call Logs',
+  },
+  {
+    label: 'Research Lab',
+    icon: SparkleIcon,
+    to: 'Research Lab',
   },
 ]
 
@@ -206,6 +212,8 @@ function getIcon(routeName, icon) {
       return NoteIcon
     case 'Call Logs':
       return PhoneIcon
+    case 'Research Lab':
+      return SparkleIcon
     default:
       return PinIcon
   }

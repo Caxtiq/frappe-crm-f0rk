@@ -19,7 +19,7 @@
       </div>
     </template>
     <template #body-content>
-      <div class="flex flex-col gap-4">
+      <div class="note-modal-body flex flex-col gap-4">
         <div>
           <FormControl
             ref="title"
@@ -47,7 +47,7 @@
       </div>
     </template>
     <template #actions>
-      <div class="flex justify-end">
+      <div class="note-modal-actions flex justify-end">
         <Button
           :label="editMode ? __('Update') : __('Create')"
           variant="solid"
@@ -161,3 +161,21 @@ watch(
   },
 )
 </script>
+
+<style scoped>
+.note-modal-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  padding: 0.9rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.note-modal-actions {
+  margin-top: 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  padding: 0.55rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+</style>

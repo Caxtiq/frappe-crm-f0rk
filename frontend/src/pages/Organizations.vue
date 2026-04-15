@@ -1,57 +1,62 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Organizations" />
-    </template>
-    <template #right-header>
-      <CustomActions
-        v-if="organizationsListView?.customListActions"
-        :actions="organizationsListView.customListActions"
-      />
-      <Button
-        variant="solid"
-        :label="__('Create')"
-        iconLeft="plus"
-        @click="showOrganizationModal = true"
-      />
-    </template>
-  </LayoutHeader>
-  <ViewControls
-    ref="viewControls"
-    v-model="organizations"
-    v-model:loadMore="loadMore"
-    v-model:resizeColumn="triggerResize"
-    v-model:updatedPageCount="updatedPageCount"
-    doctype="CRM Organization"
-  />
-  <OrganizationsListView
-    ref="organizationsListView"
-    v-if="organizations.data && rows.length"
-    v-model="organizations.data.page_length_count"
-    v-model:list="organizations"
-    :rows="rows"
-    :columns="columns"
-    :options="{
-      showTooltip: false,
-      resizeColumn: true,
-      rowCount: organizations.data.row_count,
-      totalCount: organizations.data.total_count,
-    }"
-    @loadMore="() => loadMore++"
-    @columnWidthUpdated="() => triggerResize++"
-    @updatePageCount="(count) => (updatedPageCount = count)"
-    @applyFilter="(data) => viewControls.applyFilter(data)"
-    @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
-    @likeDoc="(data) => viewControls.likeDoc(data)"
-    @selectionsChanged="
-      (selections) => viewControls.updateSelections(selections)
-    "
-  />
-  <EmptyState
-    v-else-if="organizations.data && !rows.length"
-    name="organizations"
-    :icon="OrganizationsIcon"
-  />
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs v-model="viewControls" routeName="Organizations" />
+      </template>
+      <template #right-header>
+        <CustomActions
+          v-if="organizationsListView?.customListActions"
+          :actions="organizationsListView.customListActions"
+        />
+        <Button
+          variant="solid"
+          :label="__('Create')"
+          iconLeft="plus"
+          @click="showOrganizationModal = true"
+        />
+      </template>
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
+      ref="viewControls"
+      v-model="organizations"
+      v-model:loadMore="loadMore"
+      v-model:resizeColumn="triggerResize"
+      v-model:updatedPageCount="updatedPageCount"
+      doctype="CRM Organization"
+    />
+    <OrganizationsListView
+      class="entity-body mt-3 rounded-2xl"
+      ref="organizationsListView"
+      v-if="organizations.data && rows.length"
+      v-model="organizations.data.page_length_count"
+      v-model:list="organizations"
+      :rows="rows"
+      :columns="columns"
+      :options="{
+        showTooltip: false,
+        resizeColumn: true,
+        rowCount: organizations.data.row_count,
+        totalCount: organizations.data.total_count,
+      }"
+      @loadMore="() => loadMore++"
+      @columnWidthUpdated="() => triggerResize++"
+      @updatePageCount="(count) => (updatedPageCount = count)"
+      @applyFilter="(data) => viewControls.applyFilter(data)"
+      @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
+      @likeDoc="(data) => viewControls.likeDoc(data)"
+      @selectionsChanged="
+        (selections) => viewControls.updateSelections(selections)
+      "
+    />
+    <EmptyState
+      v-else-if="organizations.data && !rows.length"
+      class="entity-body mt-3 rounded-2xl"
+      name="organizations"
+      :icon="OrganizationsIcon"
+    />
+  </div>
   <OrganizationModal
     v-if="showOrganizationModal"
     v-model="showOrganizationModal"
@@ -158,3 +163,16 @@ const columns = computed(() => {
   return _columns
 })
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 14px 30px rgba(18, 65, 41, 0.1);
+}
+</style>

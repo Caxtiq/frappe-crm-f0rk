@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col h-full w-full text-ink-gray-8">
+  <div class="settings-layout-base flex flex-col h-full w-full text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between p-8 text-ink-gray-8">
+    <div class="settings-layout-head flex justify-between p-8 text-ink-gray-8">
       <div class="flex flex-col gap-1">
         <slot name="title">
           <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
@@ -19,10 +19,10 @@
       </div>
       <slot name="header-actions" v-if="Boolean($slots['header-actions'])" />
     </div>
-    <div class="p-8 pt-0" v-if="Boolean($slots['header-bottom'])">
+    <div class="settings-layout-head-bottom p-8 pt-0" v-if="Boolean($slots['header-bottom'])">
       <slot name="header-bottom" />
     </div>
-    <div class="h-full overflow-y-auto p-8 pt-0">
+    <div class="settings-layout-body h-full overflow-y-auto p-8 pt-0">
       <slot name="content" />
     </div>
   </div>
@@ -38,3 +38,30 @@ const props = defineProps({
   },
 })
 </script>
+
+<style scoped>
+.settings-layout-head,
+.settings-layout-head-bottom,
+.settings-layout-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.settings-layout-head {
+  margin: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.9rem 1rem;
+}
+
+.settings-layout-head-bottom {
+  margin: 0 1rem 0.75rem;
+  padding: 0.65rem;
+}
+
+.settings-layout-body {
+  margin: 0 1rem 1rem;
+  padding: 0.85rem;
+}
+</style>

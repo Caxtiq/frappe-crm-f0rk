@@ -1,6 +1,8 @@
 <template>
-  <SlaPolicyList v-if="step.screen == 'list'" />
-  <SlaPolicyView v-else-if="step.screen == 'view'" />
+  <div class="sla-config-shell h-full">
+    <SlaPolicyList v-if="step.screen == 'list'" />
+    <SlaPolicyView v-else-if="step.screen == 'view'" />
+  </div>
 </template>
 
 <script setup>
@@ -36,3 +38,14 @@ onUnmounted(() => {
   slaPolicyListData.filters = {}
 })
 </script>
+
+<style scoped>
+.sla-config-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  margin: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+</style>

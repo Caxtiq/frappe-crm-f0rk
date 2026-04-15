@@ -122,7 +122,7 @@ const router = useRouter()
 
 function redirect(tabName) {
   if (route.name == 'Lead' || route.name == 'Deal') {
-    let hash = '#' + tabName
+    let hash = '#tab-' + tabName.toLowerCase()
     if (route.hash != hash) {
       router.push({ ...route, hash })
     }

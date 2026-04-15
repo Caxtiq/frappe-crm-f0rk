@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="title !== 'Data'"
-    class="mx-4 my-3 flex items-center justify-between text-lg font-medium sm:mx-10 sm:mb-4 sm:mt-8"
+    class="activity-headline mx-4 my-3 flex items-center justify-between text-lg font-medium sm:mx-10 sm:mb-4 sm:mt-8"
   >
     <div class="flex h-8 items-center text-xl font-semibold text-ink-gray-8">
       {{ __(title) }}
@@ -190,3 +190,13 @@ const callActions = computed(() => {
   )
 })
 </script>
+
+<style scoped>
+.activity-headline {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.95rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 88%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

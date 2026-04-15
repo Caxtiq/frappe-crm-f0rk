@@ -16,16 +16,16 @@
       />
     </template>
   </LayoutHeader>
-  <div class="flex flex-col overflow-hidden text-ink-gray-9">
+  <div class="mobile-notification-page flex flex-col overflow-hidden text-ink-gray-9">
     <div
       v-if="notifications.data?.length"
-      class="divide-y divide-outline-gray-1 overflow-y-auto text-base"
+      class="mobile-notification-list divide-y divide-outline-gray-1 overflow-y-auto text-base"
     >
       <RouterLink
         v-for="n in notifications.data"
         :key="n.comment"
         :to="getRoute(n)"
-        class="flex cursor-pointer items-start gap-3 px-2.5 py-3 hover:bg-surface-gray-2"
+        class="mobile-notification-row flex cursor-pointer items-start gap-3 px-2.5 py-3 hover:bg-surface-gray-2"
         @click="mark_doc_as_read(n.comment || n.notification_type_doc)"
       >
         <div class="mt-1 flex items-center gap-2.5">
@@ -104,3 +104,20 @@ function getRoute(notification) {
   }
 }
 </script>
+
+<style scoped>
+.mobile-notification-page {
+  padding: 0.55rem;
+}
+
+.mobile-notification-list {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 90%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.mobile-notification-row {
+  transition: background-color 180ms ease;
+}
+</style>

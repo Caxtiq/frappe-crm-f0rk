@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col h-full gap-4">
+  <div class="email-add-page flex flex-col h-full gap-4">
     <!-- title and desc -->
-    <div role="heading" aria-level="1" class="flex flex-col gap-1">
+    <div role="heading" aria-level="1" class="email-add-head flex flex-col gap-1">
       <h2 class="text-xl font-semibold text-ink-gray-8">
         {{ __('Setup email') }}
       </h2>
@@ -10,7 +10,7 @@
       </p>
     </div>
     <!-- email service provider selection -->
-    <div class="flex flex-wrap items-center">
+    <div class="email-add-services flex flex-wrap items-center">
       <div
         v-for="s in services"
         :key="s.name"
@@ -24,7 +24,7 @@
         />
       </div>
     </div>
-    <div v-if="selectedService" class="flex flex-col gap-4">
+    <div v-if="selectedService" class="email-add-body flex flex-col gap-4">
       <!-- email service provider info -->
       <div
         class="flex items-center gap-2 p-2 rounded-md ring-1 ring-outline-gray-3 text-ink-gray-6"
@@ -74,7 +74,7 @@
       </div>
     </div>
     <!-- action button -->
-    <div v-if="selectedService" class="flex justify-between mt-auto">
+    <div v-if="selectedService" class="email-add-actions flex justify-between mt-auto">
       <Button
         :label="__('Back')"
         variant="outline"
@@ -158,4 +158,24 @@ function createEmailAccount() {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.email-add-head,
+.email-add-services,
+.email-add-body,
+.email-add-actions {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.email-add-head,
+.email-add-services,
+.email-add-actions {
+  padding: 0.75rem;
+}
+
+.email-add-body {
+  padding: 0.85rem;
+}
+</style>

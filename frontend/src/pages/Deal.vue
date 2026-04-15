@@ -17,6 +17,28 @@
         :actions="document.actions"
       />
       <AssignTo v-model="assignees.data" doctype="CRM Deal" :docname="dealId" />
+      <Button
+        variant="outline"
+        label="AI Assistant"
+        @click="showAIChat = true"
+      >
+        <template #prefix>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </template>
+      </Button>
+      <Button
+        variant="outline"
+        label="AI Suggestions"
+        @click="showAISuggestions = true"
+      >
+        <template #prefix>
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+          </svg>
+        </template>
+      </Button>
       <Dropdown
         v-if="doc && document.statuses"
         :options="statuses"
@@ -36,12 +58,12 @@
       </Dropdown>
     </template>
   </LayoutHeader>
-  <div v-if="doc.name" class="flex h-full overflow-hidden">
+  <div v-if="doc.name" class="record-shell flex h-full overflow-hidden px-3 pb-3 sm:px-5 sm:pb-5">
     <Tabs
       as="div"
       v-model="tabIndex"
       :tabs="tabs"
-      class="flex flex-1 overflow-hidden flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
+      class="record-tabs mr-3 flex flex-1 overflow-hidden rounded-2xl border border-[var(--crm-border)] shadow-[0_14px_32px_rgba(0,0,0,0.25)] flex-col [&_[role='tab']]:px-0 [&_[role='tablist']]:px-5 [&_[role='tablist']]:gap-7.5 [&_[role='tabpanel']:not([hidden])]:flex [&_[role='tabpanel']:not([hidden])]:grow"
     >
       <template #tab-panel>
         <Activities
@@ -56,9 +78,9 @@
         />
       </template>
     </Tabs>
-    <Resizer side="right" class="flex flex-col justify-between border-l">
+    <Resizer side="right" class="record-sidepanel crm-panel flex flex-col justify-between overflow-hidden rounded-2xl">
       <div
-        class="flex h-[45px] cursor-copy items-center border-b px-5 py-2.5 text-lg font-medium text-ink-gray-9"
+        class="flex h-[45px] cursor-copy items-center border-b border-[var(--crm-border)] px-5 py-2.5 text-lg font-medium text-[var(--crm-text)] bg-black/20"
         @click="copyToClipboard(dealId)"
       >
         {{ __(dealId) }}
@@ -328,6 +350,37 @@
     v-model="showLostReasonModal"
     :deal="document"
   />
+  <Dialog
+    v-if="showAIChat"
+    v-model="showAIChat"
+    :options="{
+      title: 'AI Assistant',
+      size: 'xl',
+    }"
+  >
+    <template #body-content>
+      <AIChat
+        :referenceDoctype="'CRM Deal'"
+        :referenceName="dealId"
+        @close="showAIChat = false"
+      />
+    </template>
+  </Dialog>
+  <Dialog
+    v-if="showAISuggestions"
+    v-model="showAISuggestions"
+    :options="{
+      title: 'AI Suggestions',
+      size: 'xl',
+    }"
+  >
+    <template #body-content>
+      <AISuggestions
+        :referenceDoctype="'CRM Deal'"
+        :referenceName="dealId"
+      />
+    </template>
+  </Dialog>
 </template>
 <script setup>
 import DeleteLinkedDocModal from '@/components/DeleteLinkedDocModal.vue'
@@ -362,6 +415,8 @@ import CollapsibleSection from '@/components/CollapsibleSection.vue'
 import SidePanelLayout from '@/components/SidePanelLayout.vue'
 import SLASection from '@/components/SLASection.vue'
 import CustomActions from '@/components/CustomActions.vue'
+import AIChat from '@/components/AI/AIChat.vue'
+import AISuggestions from '@/components/AI/AISuggestions.vue'
 import { openWebsite, setupCustomizations, copyToClipboard } from '@/utils'
 import { getView } from '@/utils/view'
 import { getSettings } from '@/stores/settings'
@@ -370,6 +425,7 @@ import { statusesStore } from '@/stores/statuses'
 import { getMeta } from '@/stores/meta'
 import { useDocument } from '@/data/document'
 import { whatsappEnabled, callEnabled } from '@/composables/settings'
+import { useAIStore } from '@/stores/ai'
 import {
   createResource,
   Dropdown,
@@ -380,6 +436,7 @@ import {
   call,
   usePageMeta,
   toast,
+  Dialog,
 } from 'frappe-ui'
 import { useOnboarding } from 'frappe-ui/frappe'
 import {
@@ -398,6 +455,7 @@ const { brand } = getSettings()
 const { $dialog, $socket, makeCall } = globalStore()
 const { statusOptions, getDealStatus } = statusesStore()
 const { doctypeMeta } = getMeta('CRM Deal')
+const aiStore = useAIStore()
 
 const { updateOnboardingStep, isOnboardingStepsCompleted } =
   useOnboarding('frappecrm')
@@ -415,6 +473,8 @@ const props = defineProps({
 const errorTitle = ref('')
 const errorMessage = ref('')
 const showDeleteLinkedDocModal = ref(false)
+const showAIChat = ref(false)
+const showAISuggestions = ref(false)
 
 const { triggerOnChange, assignees, permissions, document, scripts, error } =
   useDocument('CRM Deal', props.dealId)
@@ -797,3 +857,14 @@ function reloadAssignees(data) {
   }
 }
 </script>
+
+<style scoped>
+.record-shell {
+  background: linear-gradient(180deg, rgba(124, 108, 248, 0.08), rgba(8, 9, 18, 0.5));
+}
+
+.record-tabs :deep([role='tablist']) {
+  border-bottom: 1px solid var(--crm-border);
+  background: rgba(124, 108, 248, 0.05);
+}
+</style>

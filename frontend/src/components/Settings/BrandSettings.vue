@@ -1,7 +1,7 @@
 <template>
-  <div class="flex h-full flex-col gap-6 px-6 py-8 text-ink-gray-8">
+  <div class="brand-settings-page flex h-full flex-col gap-6 px-6 py-8 text-ink-gray-8">
     <!-- Header -->
-    <div class="flex justify-between px-2 text-ink-gray-8">
+    <div class="brand-settings-head flex justify-between px-2 text-ink-gray-8">
       <div class="flex flex-col gap-1">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Brand settings') }}
@@ -22,7 +22,7 @@
     </div>
 
     <!-- Fields -->
-    <div class="flex flex-1 flex-col p-2 gap-4 overflow-y-auto">
+    <div class="brand-settings-body flex flex-1 flex-col p-2 gap-4 overflow-y-auto">
       <div class="flex w-full">
         <FormControl
           type="text"
@@ -38,7 +38,7 @@
       <div class="flex flex-col justify-between gap-4">
         <div class="flex items-center flex-1 gap-5">
           <div
-            class="flex items-center justify-center rounded border border-outline-gray-modals size-20"
+            class="brand-media-preview flex size-20 items-center justify-center rounded border border-outline-gray-modals"
           >
             <img
               v-if="settings.doc?.brand_logo"
@@ -73,7 +73,7 @@
       <div class="flex flex-col justify-between gap-4">
         <div class="flex items-center flex-1 gap-5">
           <div
-            class="flex items-center justify-center rounded border border-outline-gray-modals size-20"
+            class="brand-media-preview flex size-20 items-center justify-center rounded border border-outline-gray-modals"
           >
             <img
               v-if="settings.doc?.favicon"
@@ -124,3 +124,18 @@ function updateSettings() {
   })
 }
 </script>
+
+<style scoped>
+.brand-settings-head,
+.brand-settings-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.brand-media-preview {
+  border-color: color-mix(in oklab, var(--outline) 64%, white);
+  background: color-mix(in oklab, var(--surface-0) 88%, white);
+}
+</style>

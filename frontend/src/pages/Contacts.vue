@@ -1,57 +1,62 @@
 <template>
-  <LayoutHeader>
-    <template #left-header>
-      <ViewBreadcrumbs v-model="viewControls" routeName="Contacts" />
-    </template>
-    <template #right-header>
-      <CustomActions
-        v-if="contactsListView?.customListActions"
-        :actions="contactsListView.customListActions"
-      />
-      <Button
-        variant="solid"
-        :label="__('Create')"
-        iconLeft="plus"
-        @click="showContactModal = true"
-      />
-    </template>
-  </LayoutHeader>
-  <ViewControls
-    ref="viewControls"
-    v-model="contacts"
-    v-model:loadMore="loadMore"
-    v-model:resizeColumn="triggerResize"
-    v-model:updatedPageCount="updatedPageCount"
-    doctype="Contact"
-  />
-  <ContactsListView
-    ref="contactsListView"
-    v-if="contacts.data && rows.length"
-    v-model="contacts.data.page_length_count"
-    v-model:list="contacts"
-    :rows="rows"
-    :columns="columns"
-    :options="{
-      showTooltip: false,
-      resizeColumn: true,
-      rowCount: contacts.data.row_count,
-      totalCount: contacts.data.total_count,
-    }"
-    @loadMore="() => loadMore++"
-    @columnWidthUpdated="() => triggerResize++"
-    @updatePageCount="(count) => (updatedPageCount = count)"
-    @applyFilter="(data) => viewControls.applyFilter(data)"
-    @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
-    @likeDoc="(data) => viewControls.likeDoc(data)"
-    @selectionsChanged="
-      (selections) => viewControls.updateSelections(selections)
-    "
-  />
-  <EmptyState
-    v-else-if="contacts.data && !rows.length"
-    name="contacts"
-    :icon="ContactsIcon"
-  />
+  <div class="entity-page px-3 pb-3 sm:px-5 sm:pb-5">
+    <LayoutHeader>
+      <template #left-header>
+        <ViewBreadcrumbs v-model="viewControls" routeName="Contacts" />
+      </template>
+      <template #right-header>
+        <CustomActions
+          v-if="contactsListView?.customListActions"
+          :actions="contactsListView.customListActions"
+        />
+        <Button
+          variant="solid"
+          :label="__('Create')"
+          iconLeft="plus"
+          @click="showContactModal = true"
+        />
+      </template>
+    </LayoutHeader>
+    <ViewControls
+      class="entity-controls mt-3 rounded-2xl"
+      ref="viewControls"
+      v-model="contacts"
+      v-model:loadMore="loadMore"
+      v-model:resizeColumn="triggerResize"
+      v-model:updatedPageCount="updatedPageCount"
+      doctype="Contact"
+    />
+    <ContactsListView
+      class="entity-body mt-3 rounded-2xl"
+      ref="contactsListView"
+      v-if="contacts.data && rows.length"
+      v-model="contacts.data.page_length_count"
+      v-model:list="contacts"
+      :rows="rows"
+      :columns="columns"
+      :options="{
+        showTooltip: false,
+        resizeColumn: true,
+        rowCount: contacts.data.row_count,
+        totalCount: contacts.data.total_count,
+      }"
+      @loadMore="() => loadMore++"
+      @columnWidthUpdated="() => triggerResize++"
+      @updatePageCount="(count) => (updatedPageCount = count)"
+      @applyFilter="(data) => viewControls.applyFilter(data)"
+      @applyLikeFilter="(data) => viewControls.applyLikeFilter(data)"
+      @likeDoc="(data) => viewControls.likeDoc(data)"
+      @selectionsChanged="
+        (selections) => viewControls.updateSelections(selections)
+      "
+    />
+    <EmptyState
+      v-else-if="contacts.data && !rows.length"
+      class="entity-body mt-3 rounded-2xl"
+      name="contacts"
+      :icon="ContactsIcon"
+    />
+  </div>
   <ContactModal
     v-if="showContactModal"
     v-model="showContactModal"
@@ -161,3 +166,16 @@ const columns = computed(() => {
   return _columns
 })
 </script>
+
+<style scoped>
+.entity-page {
+  height: 100%;
+}
+
+.entity-controls,
+.entity-body {
+  border: 1px solid var(--crm-border);
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 14px 30px rgba(18, 65, 41, 0.1);
+}
+</style>

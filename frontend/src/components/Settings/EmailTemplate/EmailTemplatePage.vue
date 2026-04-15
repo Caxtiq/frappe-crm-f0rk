@@ -1,18 +1,20 @@
 <template>
-  <NewEmailTemplate
-    v-if="step === 'new-template'"
-    :templateData="template"
-    @updateStep="updateStep"
-  />
-  <EmailTemplates
-    v-else-if="step === 'template-list'"
-    @updateStep="updateStep"
-  />
-  <EditEmailTemplate
-    v-else-if="step === 'edit-template'"
-    :templateData="template"
-    @updateStep="updateStep"
-  />
+  <div class="email-template-shell h-full">
+    <NewEmailTemplate
+      v-if="step === 'new-template'"
+      :templateData="template"
+      @updateStep="updateStep"
+    />
+    <EmailTemplates
+      v-else-if="step === 'template-list'"
+      @updateStep="updateStep"
+    />
+    <EditEmailTemplate
+      v-else-if="step === 'edit-template'"
+      :templateData="template"
+      @updateStep="updateStep"
+    />
+  </div>
 </template>
 
 <script setup>
@@ -53,3 +55,14 @@ function updateStep(newStep, data) {
   template.value = data
 }
 </script>
+
+<style scoped>
+.email-template-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  margin: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 94%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+</style>

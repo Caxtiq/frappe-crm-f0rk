@@ -1,5 +1,8 @@
 <template>
-  <div class="mx-3 mt-2 h-full overflow-y-auto sm:mx-5" v-if="showGroupedRows">
+  <div
+    class="list-rows-shell mx-3 mt-2 h-full overflow-y-auto sm:mx-5"
+    v-if="showGroupedRows"
+  >
     <div v-for="group in reactivieRows" :key="group.group">
       <ListGroupHeader :group="group">
         <div
@@ -30,7 +33,7 @@
   <ListRows
     v-else
     ref="scrollContainer"
-    class="mx-3 sm:mx-5"
+    class="list-rows-shell mx-3 sm:mx-5"
     @scroll="handleScroll"
   >
     <ListRow
@@ -95,3 +98,12 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped>
+.list-rows-shell {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+</style>

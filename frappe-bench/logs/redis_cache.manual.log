@@ -1,0 +1,7 @@
+nohup: ignoring input
+122536:C 13 Apr 2026 12:26:56.519 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+122536:C 13 Apr 2026 12:26:56.519 # Redis version=7.0.15, bits=64, commit=00000000, modified=0, pid=122536, just started
+122536:C 13 Apr 2026 12:26:56.519 # Configuration loaded
+122536:M 13 Apr 2026 12:26:56.519 * monotonic clock: POSIX clock_gettime
+122536:M 13 Apr 2026 12:26:56.520 # Warning: Could not create server TCP listening socket 127.0.0.1:13000: bind: Address already in use
+122536:M 13 Apr 2026 12:26:56.520 # Failed listening on port 13000 (TCP), aborting.

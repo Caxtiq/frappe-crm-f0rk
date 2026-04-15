@@ -1,7 +1,7 @@
 <template>
   <Dialog v-model="show" :options="dialogOptions">
     <template #body>
-      <div class="px-4 pt-5 pb-6 bg-surface-modal sm:px-6">
+      <div class="calllog-modal-body px-4 pt-5 pb-6 bg-surface-modal sm:px-6">
         <div class="flex items-center justify-between mb-5">
           <div class="flex items-center gap-2">
             <h3 class="text-2xl font-semibold leading-6 text-ink-gray-9">
@@ -35,7 +35,7 @@
           <ErrorMessage class="mt-8" :message="error" />
         </div>
       </div>
-      <div class="px-4 pt-4 pb-7 sm:px-6">
+      <div class="calllog-modal-footer px-4 pt-4 pb-7 sm:px-6">
         <div class="flex justify-end gap-2">
           <Button
             class="w-full"
@@ -186,3 +186,19 @@ function openQuickEntryModal() {
   nextTick(() => (show.value = false))
 }
 </script>
+
+<style scoped>
+.calllog-modal-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 66%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.calllog-modal-footer {
+  margin-top: 0.7rem;
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 0.9rem;
+  background: color-mix(in oklab, var(--surface-0) 90%, white);
+}
+</style>

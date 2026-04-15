@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="email-list-page flex flex-col h-full gap-4">
     <!-- header -->
-    <div class="flex justify-between text-ink-gray-8">
+    <div class="email-list-head flex justify-between text-ink-gray-8">
       <div class="flex flex-col gap-1 w-9/12">
         <h2 class="flex gap-2 text-xl font-semibold leading-none h-5">
           {{ __('Email accounts') }}
@@ -28,7 +28,7 @@
     <!-- list accounts -->
     <div
       v-if="!emailAccounts.loading && Boolean(emailAccounts.data?.length)"
-      class="mt-4"
+      class="email-list-body mt-4"
     >
       <div
         v-for="(emailAccount, i) in emailAccounts.data"
@@ -82,3 +82,21 @@ const emailAccounts = createListResource({
   },
 })
 </script>
+
+<style scoped>
+.email-list-head,
+.email-list-body {
+  border: 1px solid color-mix(in oklab, var(--outline) 68%, white);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface-0) 92%, white), var(--surface-0));
+  box-shadow: var(--shadow-soft);
+}
+
+.email-list-head {
+  padding: 0.75rem;
+}
+
+.email-list-body {
+  padding: 0.65rem;
+}
+</style>
